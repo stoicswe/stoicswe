@@ -14,6 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: stoic software engineer
+masthead_title: "Nathaniel Knudsen | stoicswe"
 name: Nathaniel Knudsen
 email: nathanielknudsen@duck.com
 logo: "/assets/images/logo.png"
@@ -23,6 +24,23 @@ twitter_username: stoicswe
 github_username: stoicswe
 minimal_mistakes_skin: dark #default
 search: true
+
+# Setting the twitter username
+twitter:
+  username: "stoicswe"
+
+# More social links for SEO
+social:
+  type: "Person" # Person or Organization (defaults to Person)
+  name:  "Nathaniel Knudsen" # If the user or organization name differs from the site's name
+  links:
+    - "https://twitter.com/stoicswe"
+    - "https://mastodon.social/@stoicswe"
+    - "https://github.com/stoicswe"
+    - "https://www.tumblr.com/"
+    - "https://www.linkedin.com/in/nathanielbunch/"
+
+
 
 # Build settings
 markdown: kramdown
@@ -61,6 +79,7 @@ author:
   name   : "Nathaniel Knudsen"
   avatar : "/assets/images/bio-photo.jpg"
   bio    : "senior software engineer at ge digital. stoic. professional coffee addict. starcitizen enthusiast. privacy rights/OSS advocate. views are my own. he/him/his"
+  location: "United States"
   links:
     - label: "Mastodon"
       icon: "fas fa-fw fa-link"
@@ -105,9 +124,11 @@ defaults:
       layout: single
       author_profile: true
       read_time: false
+      words_per_minute: 250
       comments: false
       share: true
       related: true
+      show_date: false
   # _pages
   - scope:
       path: "_pages"
