@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: stoicswe
+title: Nathaniel Knudsen
 email:
 description: >- # this means to ignore newlines until "baseurl:"
   Nathaniel Knudsen is a senior software engineer at GE Digital.
@@ -56,34 +56,37 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "First Lastname"
+  name   : "Nathaniel Knudsen"
   avatar : "/assets/images/bio-photo.jpg"
-  bio    : "My awesome biography constrained to a sentence or two goes here."
+  bio    : "senior software engineer at ge digital. stoic. professional coffee addict. starcitizen enthusiast. privacy rights/OSS advocate. views are my own. he/him/his"
   links:
-    - label: "Website"
+    - label: "Mastodon"
       icon: "fas fa-fw fa-link"
-      url: "https://"
+      url: "https://mastodon.social/@stoicswe"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/"
+      url: "https://twitter.com/stoicswe"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/"
+      url: "https://github.com/stoicswe"
+    - label: "Tumblr"
+      icon: "fab fa-fw fa-tumblr"
+      url: "https://www.tumblr.com/blog/stoicswe"
 
 footer:
   links:
+    - label: "Mastodon"
+      icon: "fas fa-fw fa-link"
+      url: "https://mastodon.social/@stoicswe"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/"
+      url: "https://twitter.com/stoicswe"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/"
+      url: "https://github.com/stoicswe"
+    - label: "Tumblr"
+      icon: "fab fa-fw fa-tumblr"
+      url: "https://www.tumblr.com/blog/stoicswe"
 
 defaults:
   # _posts
