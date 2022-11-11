@@ -3,6 +3,7 @@ permalink: /about/
 title: "About"
 ---
 
-Tempor velit sint sunt ipsum tempor enim ad qui ullamco. Est dolore anim ad velit duis dolore minim sunt aliquip amet commodo labore. Ut eu pariatur aute ea aute excepteur laborum. Esse ea esse excepteur minim mollit qui cillum excepteur ex dolore magna. Labore deserunt fugiat incididunt incididunt sint ea. Consequat dolore aute laboris quis proident quis non et est consectetur ex eiusmod sit culpa.
+Senior software engineer with a strong foundation in computer science and programming principals, oriented around multiple platforms and languages. I have experience in object oriented programming; developing and, testing, and debugging code; designing software models; managing software projects; and administering systems. I have the capability to learn new concepts, software, and technologies quickly. I can work alone or with a team. 
 
-Cupidatat ea do et in excepteur in. Ad nostrud ut est esse eu duis ea sunt eiusmod. Aliquip tempor veniam sint elit fugiat. Velit incididunt laboris amet incididunt labore dolore irure velit excepteur commodo deserunt laborum. Consectetur eu fugiat veniam veniam Lorem labore magna eiusmod. Ea occaecat reprehenderit pariatur consectetur minim labore ut aliquip.
+I have skills in the following areas:
+ C++, C#, Scala, Java, Python, Haskell, Object-Oriented/Functional Programming, REST APIs, Micro-Services, Docker, Kubernetes, Prometheus, Grafana, Machine Learning, SCRUM, Agile Software Development, Software Architecture and Design, Distributed Applications.
