@@ -143,3 +143,9 @@ category_archive:
 tag_archive:
   type: liquid
   path: /tags/
+
+# Performance improvement
+compress_html:
+  clippings: all
+  ignore:
+    envs: development
