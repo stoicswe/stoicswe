@@ -24,6 +24,7 @@ twitter_username: stoicswe
 github_username: stoicswe
 minimal_mistakes_skin: dark #default
 search: true
+locale: "en-US"
 
 # Setting the twitter username
 twitter:
@@ -37,7 +38,7 @@ social:
     - "https://twitter.com/stoicswe"
     - "https://mastodon.social/@stoicswe"
     - "https://github.com/stoicswe"
-    - "https://www.tumblr.com/"
+    - "https://stoicswe.tumblr.com/"
     - "https://www.linkedin.com/in/nathanielbunch/"
 
 
@@ -95,7 +96,7 @@ author:
       url: "https://www.linkedin.com/in/nathanielbunch/"  
     - label: "Tumblr"
       icon: "fab fa-fw fa-tumblr"
-      url: "https://www.tumblr.com/blog/stoicswe"
+      url: "https://witchswe.tumblr.com/"
 
 footer:
   links:
@@ -113,7 +114,7 @@ footer:
       url: "https://www.linkedin.com/in/nathanielbunch/"  
     - label: "Tumblr"
       icon: "fab fa-fw fa-tumblr"
-      url: "https://www.tumblr.com/blog/stoicswe"
+      url: "https://witchswe.tumblr.com/"
 
 defaults:
   # _posts
