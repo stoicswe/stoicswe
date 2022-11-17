@@ -13,13 +13,13 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: stoic software engineer
+title: Nathaniel Knudsen | stoic software engineer
 masthead_title: "Nathaniel Knudsen"
 name: Nathaniel Knudsen
 email: nathanielknudsen@duck.com
 logo: "/assets/images/logo.png"
 description: >- # this means to ignore newlines until "baseurl:"
-  Nathaniel Knudsen is a senior software engineer at GE Digital.
+  Nathaniel Knudsen, senior software engineer at GE Digital (GE Vernova).
 twitter_username: stoicswe
 github_username: stoicswe
 minimal_mistakes_skin: dark #default
