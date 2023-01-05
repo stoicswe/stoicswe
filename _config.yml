@@ -39,7 +39,7 @@ social:
     - "https://mastodon.social/@stoicswe"
     - "https://github.com/stoicswe"
     - "https://stoicswe.tumblr.com/"
-    - "https://www.linkedin.com/in/nathanielbunch/"
+    - "https://www.linkedin.com/in/stoicswe/"
 
 
 
@@ -93,10 +93,10 @@ author:
       url: "https://github.com/stoicswe"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
-      url: "https://www.linkedin.com/in/nathanielbunch/"  
+      url: "https://www.linkedin.com/in/stoicswe/"  
     - label: "Tumblr"
       icon: "fab fa-fw fa-tumblr"
-      url: "https://witchswe.tumblr.com/"
+      url: "https://stoicswe.tumblr.com/"
 
 footer:
   links:
@@ -111,10 +111,10 @@ footer:
       url: "https://github.com/stoicswe"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
-      url: "https://www.linkedin.com/in/nathanielbunch/"  
+      url: "https://www.linkedin.com/in/stoicswe/"  
     - label: "Tumblr"
       icon: "fab fa-fw fa-tumblr"
-      url: "https://witchswe.tumblr.com/"
+      url: "https://stoicswe.tumblr.com/"
 
 defaults:
   # _posts
