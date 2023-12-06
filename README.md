@@ -1,5 +1,5 @@
 # Nathaniel Knudsen, software engineer.
-[![Twitter Follow](https://img.shields.io/badge/twitter-@stoicswe-blue?logo=x)](https://twitter.com/stoicswe) [![Threads Follow](https://img.shields.io/badge/threads-@stoicswe.eth-lavender?logo=threads)](https://www.threads.net/@stoicswe.eth) [![Mastodon Follow](https://img.shields.io/badge/mastodon-@stoicswe-purple?logo=mastodon)](https://mastodon.social/@stoicswe) [![BlueSky Follow](https://img.shields.io/badge/bluesky-@stoicswe.com_-blue?logo=blueprint)](https://bsky.app/profile/stoicswe.com) 
+[![Twitter Follow](https://img.shields.io/badge/twitter-@stoicswe-blue?logo=x)](https://twitter.com/stoicswe) [![Mastodon Follow](https://img.shields.io/badge/mastodon-@stoicswe-purple?logo=mastodon)](https://mastodon.social/@stoicswe)
 
 senior software wngineer, currently working at GE Digital. I have skills and most experience working on `distributed microservices` running in `kubernetes` clusters and `docker` containers. I am also desperately addicted to coffee (professionally, of course).
 
