@@ -1,3 +1,4 @@
+<!-- <a rel="me" href="https://mastodon.online/@stoicswe">Mastodon</a> -->
 # Nathaniel Knudsen
 | software engineer. stoic. transhumanist.
 
