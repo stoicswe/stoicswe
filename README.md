@@ -2,7 +2,7 @@
 # Nathaniel Knudsen
 | software engineer. stoic. transhumanist.
 
-[![BlueSky Follow](https://img.shields.io/badge/.-@stoicswe.com-lightblue?logo=bluesky)](https://bsky.app/profile/stoicswe.com) [![Reddit Follow](https://img.shields.io/badge/.-@kyyrell_-orange?logo=reddit)](https://www.reddit.com/user/kyyrell_/) 
+[![BlueSky Follow](https://img.shields.io/badge/.-@stoicswe.com-lightblue?logo=bluesky)](https://bsky.app/profile/stoicswe.com) [![Mastodon Follow](https://img.shields.io/badge/.-@stoicswe-purple?logo=mastodon)](https://mastodon.online/@stoicswe) 
 
 senior software engineer, currently working at GE Vernova. I have skills and most experience working on `distributed microservices` running in `kubernetes` clusters and `docker` containers. I am also desperately addicted to coffee (professionally, of course).
 
