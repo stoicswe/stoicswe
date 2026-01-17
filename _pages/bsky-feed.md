@@ -1,6 +1,6 @@
 ---
 title: "Bluesky"
 permalink: /bsky-feed/
-layout: posts
+layout: bsky-feed
 author_profile: true
 ---
