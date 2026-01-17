@@ -1,6 +1,8 @@
 main:
   - title: "Posts"
     url: /posts/
+  - title: "Bluesky"
+    url: /bsky-feed/
   #- title: "Categories"
   #  url: /categories/
   #- title: "Tags"
