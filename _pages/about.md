@@ -8,4 +8,4 @@ Senior software engineer with a strong foundation in computer science and progra
 I have skills in the following areas:
  C++, C#, Scala, Java, Python, Haskell, Object-Oriented/Functional Programming, REST APIs, Micro-Services, Docker, Kubernetes, Prometheus, Grafana, Machine Learning, SCRUM, Agile Software Development, Software Architecture and Design, Distributed Applications.
 
-Connect with me on <a rel="me" href="https://mastodon.social/@stoicswe">Mastodon</a> or <a href="https://twitter.com/stoicswe">Twitter</a>!
+Connect with me on <a href="https://bsky.app/profile/stoicswe.com">Bluesky</a>!

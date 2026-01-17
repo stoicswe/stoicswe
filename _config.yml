@@ -13,35 +13,31 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Nathaniel Knudsen | stoic software engineer
+title: Nathaniel Knudsen | senior software engineer
 masthead_title: "Nathaniel Knudsen"
 name: Nathaniel Knudsen
 email: nathanielknudsen@duck.com
 logo: "/assets/images/logo.png"
 description: >- # this means to ignore newlines until "baseurl:"
-  Nathaniel Knudsen, senior software engineer at GE Digital (GE Vernova).
-twitter_username: stoicswe
+  Nathaniel Knudsen, senior software engineer at GE Vernova.
+#twitter_username: stoicswe
 github_username: stoicswe
 minimal_mistakes_skin: dark #default
 search: true
 locale: "en-US"
 
 # Setting the twitter username
-twitter:
-  username: "stoicswe"
+#twitter:
+#  username: "stoicswe"
 
 # More social links for SEO
 social:
   type: "Person" # Person or Organization (defaults to Person)
-  name:  "Nathaniel Knudsen" # If the user or organization name differs from the site's name
+  name: "Nathaniel Knudsen" # If the user or organization name differs from the site's name
   links:
-    - "https://twitter.com/stoicswe"
-    - "https://mastodon.social/@stoicswe"
-    - "https://github.com/stoicswe"
-    - "https://stoicswe.tumblr.com/"
+    - "https://bsky.app/profile/stoicswe.com"
     - "https://www.linkedin.com/in/stoicswe/"
-
-
+    - "https://github.com/stoicswe"
 
 # Build settings
 markdown: kramdown
@@ -77,44 +73,32 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "Nathaniel Knudsen"
-  avatar : "/assets/images/bio-photo.jpg"
-  bio    : "senior software engineer at ge digital. stoic. professional coffee addict. starcitizen enthusiast. privacy rights/OSS advocate. views are my own. he/him/his"
+  name: "Nathaniel Knudsen"
+  avatar: "/assets/images/bio-photo.jpg"
+  bio: "senior software engineer at ge digital. stoic. professional coffee addict. starcitizen enthusiast. privacy rights/OSS advocate. views are my own. he/him/his"
   location: "United States"
   links:
-    - label: "Mastodon"
-      icon: "fas fa-fw fa-link"
-      url: "https://mastodon.social/@stoicswe"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/stoicswe"
+    - label: "Bluesky"
+      icon: "fas fa-fw fa-bluesky"
+      url: "https://bsky.app/profile/stoicswe.com"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/stoicswe/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/stoicswe"
-    - label: "LinkedIn"
-      icon: "fab fa-fw fa-linkedin"
-      url: "https://www.linkedin.com/in/stoicswe/"  
-    - label: "Tumblr"
-      icon: "fab fa-fw fa-tumblr"
-      url: "https://stoicswe.tumblr.com/"
 
 footer:
   links:
-    - label: "Mastodon"
-      icon: "fas fa-fw fa-link"
-      url: "https://mastodon.social/@stoicswe"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/stoicswe"
+    - label: "Bluesky"
+      icon: "fas fa-fw fa-bluesky"
+      url: "https://bsky.app/profile/stoicswe.com"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/stoicswe/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/stoicswe"
-    - label: "LinkedIn"
-      icon: "fab fa-fw fa-linkedin"
-      url: "https://www.linkedin.com/in/stoicswe/"  
-    - label: "Tumblr"
-      icon: "fab fa-fw fa-tumblr"
-      url: "https://stoicswe.tumblr.com/"
 
 defaults:
   # _posts
