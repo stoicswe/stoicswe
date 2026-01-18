@@ -14,7 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Nathaniel Knudsen | senior software engineer
-masthead_title: "Nathaniel Knudsen"
+masthead_title: "stoicswe.com"
 name: Nathaniel Knudsen
 email: contact@stoicswe.com
 logo: "/assets/images/logo.png"
@@ -79,7 +79,7 @@ author:
   location: "United States"
   links:
     - label: "Bluesky"
-      icon: "fas fa-fw fa-bluesky"
+      icon: "fas fa-fw fa-twitter"
       url: "https://bsky.app/profile/stoicswe.com"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"

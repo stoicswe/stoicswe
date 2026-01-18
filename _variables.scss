@@ -1,0 +1,52 @@
+/* Define the Regular (Normal) font */
+@font-face {
+  font-family: 'UbuntuFF';
+  src: url('./assets/fonts/ubuntu-font-family/Ubuntu-R.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Define the Bold font */
+@font-face {
+  font-family: 'UbuntuFF';
+  src: url('./assets/fonts/ubuntu-font-family/Ubuntu-B.ttf') format('truetype');
+  font-weight: bold; /* or font-weight: 700; */
+  font-style: normal;
+}
+
+/* Define the Italic font */
+@font-face {
+  font-family: 'UbuntuFF';
+  src: url('./assets/fonts/ubuntu-font-family/Ubuntu-LI.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* Define the Bold Italic font */
+@font-face {
+  font-family: 'UbuntuFF';
+  src: url('./assets/fonts/ubuntu-font-family/Ubuntu-BI.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Use the font for the entire body (and thus most text) */
+body {
+  font-family: 'UbuntuFF', serif; /* 'serif' is a fallback */
+}
+
+/* You can also target headings specifically if you want */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'UbuntuFF', serif;
+  /* The browser will automatically use the bold version for headings */
+}
+
+/* This text will be italic */
+.emphasis {
+  font-style: italic;
+}
+
+/* This text will be bold */
+.strong {
+  font-weight: bold;
+}

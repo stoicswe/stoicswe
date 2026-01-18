@@ -1,4 +1,9 @@
+# Website Temps
 _site
 .sass-cache
 .jekyll-metadata
 Gemfile.lock
+
+# macOS Items
+.DS_Store
+Thumbs.db
