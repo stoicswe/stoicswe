@@ -6,9 +6,10 @@ search: false
 @charset "utf-8";
 
 /* system typefaces */
-$serif      : "Ubuntu", Georgia, Times, serif;
-$sans-serif : "Ubuntu", -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
-$monospace  : Monaco, Consolas, "Lucida Console", monospace;
+$serif              : "Ubuntu", Georgia, Times, serif;
+$sans-serif         : "Ubuntu", -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
+$sans-serif-narrow  : "Ubuntu", -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
+$monospace          : Monaco, Consolas, "Lucida Console", monospace;
 
 $global-font-family : $serif;
 $header-font-family : $sans-serif-narrow;
