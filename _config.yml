@@ -79,7 +79,7 @@ author:
   location: "United States"
   links:
     - label: "Bluesky"
-      icon: "fas fa-fw fa-twitter"
+      icon: "fab fa-fw fa-bluesky"
       url: "https://bsky.app/profile/stoicswe.com"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
@@ -91,7 +91,7 @@ author:
 footer:
   links:
     - label: "Bluesky"
-      icon: "fas fa-fw fa-twitter"
+      icon: "fab fa-fw fa-bluesky"
       url: "https://bsky.app/profile/stoicswe.com"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
