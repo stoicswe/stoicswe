@@ -88,14 +88,6 @@ author:
       icon: "fab fa-fw fa-github"
       url: "https://github.com/stoicswe"
 
-fonts:
-  ubuntu:
-    family: "Ubuntu"
-    paths:
-      regular: "/assets/fonts/ubuntu/Ubuntu-R.ttf"
-      bold: "/assets/fonts/ubuntu/Ubuntu-B.ttf"
-      italic: "/assets/fonts/ubuntu/Ubuntu-LI.ttf"
-
 footer:
   links:
     - label: "Bluesky"
