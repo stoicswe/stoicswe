@@ -2,16 +2,12 @@
 | _senior software engineer. stoic. transhumanist._
 
 [![BlueSky Follow](https://img.shields.io/badge/.-@stoicswe.com-lightblue?logo=bluesky)](https://bsky.app/profile/stoicswe.com)
-
 <br></br>
-
 <blockquote>
 			“We control our reasoned choice and all acts that depend on that moral will. What’s not under our control are the body and any of its parts, our possessions, parents, siblings, children, or country—anything with which we might associate.” <br></br>
 			— EPICTETUS, DISCOURSES, 1.22.10
 </blockquote>
-
 <br></br>
-
 ## About
     
 senior software engineer, currently working at GE Vernova. I have skills and most experience working on `high-performance`,`distributed microservices` running in `kubernetes` clusters and `docker` containers. C++ and Java are my primary languages. I am also desperately addicted to coffee (professionally, of course), with the Chemex being my preferred brewing method.
