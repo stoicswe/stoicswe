@@ -75,7 +75,7 @@ plugins:
 author:
   name: "Nathaniel Knudsen"
   avatar: "/assets/images/bio-photo.jpg"
-  bio: "senior software engineer at ge digital. stoic. professional coffee addict. starcitizen enthusiast. privacy rights/OSS advocate. views are my own. he/him/his"
+  bio: "senior software engineer at ge vernova. stoic. professional coffee addict. starcitizen enthusiast. privacy rights/OSS advocate. views are my own. he/him/his"
   location: "United States"
   links:
     - label: "Bluesky"
@@ -88,10 +88,18 @@ author:
       icon: "fab fa-fw fa-github"
       url: "https://github.com/stoicswe"
 
+fonts:
+  ubuntu:
+    family: "Ubuntu"
+    paths:
+      regular: "/assets/fonts/ubuntu/Ubuntu-R.ttf"
+      bold: "/assets/fonts/ubuntu/Ubuntu-B.ttf"
+      italic: "/assets/fonts/ubuntu/Ubuntu-LI.ttf"
+
 footer:
   links:
     - label: "Bluesky"
-      icon: "fas fa-fw fa-bluesky"
+      icon: "fas fa-fw fa-twitter"
       url: "https://bsky.app/profile/stoicswe.com"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
