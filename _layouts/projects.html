@@ -1,0 +1,107 @@
+---
+layout: archive
+---
+
+{{ content }}
+
+<div id="projects-status" class="notice">Loading projects from GitHub&hellip;</div>
+
+<div id="projects-list" class="entries-list" hidden></div>
+
+<script>
+(function () {
+  var username = {{ site.github_username | jsonify }};
+  var listEl = document.getElementById('projects-list');
+  var statusEl = document.getElementById('projects-status');
+
+  function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function formatDate(iso) {
+    try {
+      return new Date(iso).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+    } catch (e) {
+      return iso;
+    }
+  }
+
+  function render(repos) {
+    if (!repos.length) {
+      statusEl.textContent = 'No public repositories found.';
+      return;
+    }
+
+    var html = repos.map(function (r) {
+      var meta = [];
+      if (r.language) meta.push('<i class="fas fa-fw fa-code"></i> ' + escapeHtml(r.language));
+      meta.push('<i class="fas fa-fw fa-star"></i> ' + r.stargazers_count);
+      meta.push('<i class="fas fa-fw fa-code-branch"></i> ' + r.forks_count);
+      meta.push('<i class="far fa-fw fa-clock"></i> Updated ' + formatDate(r.updated_at));
+
+      var badges = [];
+      if (r.fork) badges.push('<span class="page__taxonomy-item">fork</span>');
+      if (r.archived) badges.push('<span class="page__taxonomy-item">archived</span>');
+
+      return ''
+        + '<div class="list__item">'
+        +   '<article class="archive__item">'
+        +     '<h2 class="archive__item-title no_toc">'
+        +       '<a href="' + escapeHtml(r.html_url) + '" rel="noopener">' + escapeHtml(r.name) + '</a>'
+        +       (badges.length ? ' ' + badges.join(' ') : '')
+        +     '</h2>'
+        +     (r.description ? '<p class="archive__item-excerpt">' + escapeHtml(r.description) + '</p>' : '')
+        +     '<p class="page__meta">' + meta.join(' &nbsp;&middot;&nbsp; ') + '</p>'
+        +   '</article>'
+        + '</div>';
+    }).join('');
+
+    listEl.innerHTML = html;
+    listEl.hidden = false;
+    statusEl.hidden = true;
+  }
+
+  function fetchAll() {
+    var perPage = 100;
+    var all = [];
+
+    function page(p) {
+      var url = 'https://api.github.com/users/' + encodeURIComponent(username)
+        + '/repos?per_page=' + perPage + '&page=' + p + '&sort=updated&type=owner';
+      return fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } })
+        .then(function (res) {
+          if (!res.ok) throw new Error('GitHub API returned ' + res.status);
+          return res.json();
+        })
+        .then(function (batch) {
+          all = all.concat(batch);
+          if (batch.length === perPage) return page(p + 1);
+          return all;
+        });
+    }
+
+    return page(1);
+  }
+
+  fetchAll()
+    .then(function (repos) {
+      repos.sort(function (a, b) {
+        return new Date(b.updated_at) - new Date(a.updated_at);
+      });
+      render(repos);
+    })
+    .catch(function (err) {
+      statusEl.innerHTML = 'Could not load projects from GitHub ('
+        + escapeHtml(err.message) + '). View them directly on '
+        + '<a href="https://github.com/' + encodeURIComponent(username) + '?tab=repositories">GitHub</a>.';
+    });
+})();
+</script>
