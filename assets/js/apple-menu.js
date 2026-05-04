@@ -37,7 +37,7 @@
         { label: "About This Mac", icon: "monitor", action: "about" },
         { separator: true },
         { label: "System Settings…", icon: "gear", action: "settings" },
-        { label: "App Store…", icon: "apple", disabled: true },
+        { label: "App Store…", icon: "apple", action: "appstore" },
         { separator: true },
         {
             label: "Recent Items",
@@ -51,7 +51,7 @@
             ],
         },
         { separator: true },
-        { label: "Force Quit…", icon: "x-circle", shortcut: "⌥⇧⌘⎋", disabled: true },
+        { label: "Force Quit…", icon: "x-circle", shortcut: "⌥⇧⌘⎋", action: "forcequit" },
         { separator: true },
         { label: "Sleep", icon: "moon", disabled: true },
         { label: "Restart…", icon: "restart", action: "restart" },
@@ -254,6 +254,12 @@
                     } else if (item.action === "settings") {
                         closeMenu();
                         if (window.StoicSweSettings) window.StoicSweSettings.open();
+                    } else if (item.action === "appstore") {
+                        closeMenu();
+                        openAppStore();
+                    } else if (item.action === "forcequit") {
+                        closeMenu();
+                        if (window.StoicSwePanic) window.StoicSwePanic.show();
                     } else if (item.action === "restart" || item.action === "shutdown") {
                         closeMenu();
                         if (window.StoicSweBoot) window.StoicSweBoot.show(item.action);
@@ -453,6 +459,35 @@
         if (!modal) return;
         modal.classList.remove("is-open");
         document.documentElement.style.overflow = "";
+    }
+
+    /* ---------- App Store routing ---------- */
+    function openAppStore() {
+        var ua = navigator.userAgent || "";
+        var platform =
+            (navigator.userAgentData && navigator.userAgentData.platform) ||
+            navigator.platform ||
+            "";
+        var url;
+
+        // Check mobile first — iPadOS reports platform "MacIntel" but is identifiable
+        // by touch support; iOS UA usually contains iPhone/iPad/iPod.
+        if (/iPhone|iPad|iPod/.test(ua) || (navigator.maxTouchPoints > 1 && /Mac/i.test(platform))) {
+            url = "https://www.apple.com/app-store/";
+        } else if (/Android/.test(ua)) {
+            url = "https://play.google.com/store/apps";
+        } else if (/Mac/i.test(platform)) {
+            url = "https://www.apple.com/app-store/";
+        } else if (/Win/i.test(platform)) {
+            url = "https://apps.microsoft.com/";
+        } else if (/Linux|X11|FreeBSD|OpenBSD|NetBSD|CrOS/i.test(platform) || /Linux|FreeBSD/i.test(ua)) {
+            url = "https://flathub.org/";
+        } else {
+            // Unknown — fall through to Flathub (cross-platform, open).
+            url = "https://flathub.org/";
+        }
+
+        window.open(url, "_blank", "noopener,noreferrer");
     }
 
     /* ---------- Wiring ---------- */

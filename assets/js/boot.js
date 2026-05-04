@@ -418,7 +418,15 @@
     }
 
     /* ---------------- Public API ---------------- */
+    function forceBoot(action) {
+        // Skip the confirmation dialog and countdown — used when something
+        // upstream (e.g. a kernel panic) has already decided we're rebooting.
+        if (state !== "idle") return;
+        startBlackout(action || "restart");
+    }
+
     window.StoicSweBoot = {
         show: showDialog,
+        forceBoot: forceBoot,
     };
 })();
