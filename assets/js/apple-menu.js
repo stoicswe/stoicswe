@@ -44,10 +44,10 @@
             icon: "clock",
             arrow: true,
             submenu: [
-                { label: "Terminal.app", icon: "app-terminal" },
-                { label: "Finder.app", icon: "app-finder" },
-                { label: "Calculator.app", icon: "app-calculator" },
-                { label: "TextEdit.app", icon: "app-textedit" },
+                { label: "Terminal.app", icon: "app-terminal", action: "openTerminal" },
+                { label: "Finder.app", icon: "app-finder", action: "openFinder" },
+                { label: "Calculator.app", icon: "app-calculator", action: "openCalculator" },
+                { label: "TextEdit.app", icon: "app-textedit", action: "openTextEdit" },
             ],
         },
         { separator: true },
@@ -301,7 +301,10 @@
             subBtn.querySelector(".apple-menu__label").textContent = sub.label;
             subBtn.addEventListener("click", function (e) {
                 e.stopPropagation();
-                /* No-op for now — recent items are decorative. */
+                closeMenu();
+                if (sub.action && window.StoicSweApps && typeof window.StoicSweApps[sub.action] === "function") {
+                    window.StoicSweApps[sub.action]();
+                }
             });
             submenuEl.appendChild(subBtn);
         });

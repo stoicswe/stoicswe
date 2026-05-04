@@ -136,9 +136,12 @@
             ".settings-status::before{content:'';width:8px;height:8px;border-radius:50%;background:#34c759;box-shadow:0 0 8px rgba(52,199,89,0.6)}",
             ".settings-disclaimer{font-size:12px;color:rgba(60,60,67,0.7);line-height:1.5;margin:0 0 1em}",
             "@media(prefers-color-scheme:dark){.settings-disclaimer{color:rgba(235,235,245,0.6)}}",
-            ".settings-btn{display:inline-flex;align-items:center;gap:6px;padding:0.5em 1em;font-size:13px;font-weight:500;font-family:inherit;color:#fff;background:#0071e3;border:0;border-radius:8px;cursor:pointer;text-decoration:none}",
+            ".settings-btn{display:inline-flex;align-items:center;gap:7px;padding:0.42em 0.95em;font-size:13px;font-weight:500;font-family:inherit;color:#fff!important;background:#0071e3;border:0;border-radius:7px;cursor:pointer;text-decoration:none!important;line-height:1.3;white-space:nowrap}",
             "@media(prefers-color-scheme:dark){.settings-btn{background:#0a84ff}}",
-            ".settings-btn:hover{filter:brightness(1.05)}",
+            ".settings-btn:hover{background:#0077ed;color:#fff!important}",
+            ".settings-btn:visited{color:#fff!important}",
+            ".settings-btn__label{color:inherit}",
+            ".settings-btn__arrow{width:13px;height:13px;display:block;flex-shrink:0;opacity:0.9}",
             ".settings-empty{font-size:13px;color:rgba(60,60,67,0.65);font-style:italic}",
             "@media(prefers-color-scheme:dark){.settings-empty{color:rgba(235,235,245,0.55)}}",
             "@media(max-width:680px){.settings-window{width:100%;max-width:100%;height:100%;max-height:100%;top:0;left:0;transform:none;border-radius:0}.settings-sidebar{width:160px;flex:0 0 160px}}",
@@ -316,6 +319,20 @@
         c.appendChild(row);
     }
 
+    function buildEFFButton() {
+        var a = document.createElement("a");
+        a.className = "settings-btn";
+        a.href = EFF_URL;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.innerHTML =
+            '<span class="settings-btn__label">EFF Surveillance Self-Defense Guide</span>' +
+            '<svg class="settings-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+            '<path d="M14 5h5v5"/><path d="M19 5l-9 9"/><path d="M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/>' +
+            "</svg>";
+        return a;
+    }
+
     function renderNetwork(c, title) {
         c.appendChild(el("h1", { class: "settings-h1", text: title }));
 
@@ -351,14 +368,15 @@
         });
         c.appendChild(dis);
 
-        var link = el("a", {
-            class: "settings-btn",
-            href: EFF_URL,
-            text: "EFF Surveillance Self-Defense Guide",
-            target: "_blank",
-            rel: "noopener noreferrer",
-        });
-        c.appendChild(link);
+        c.appendChild(
+            el("p", {
+                class: "settings-disclaimer",
+                text:
+                    "For more information about how you can protect your privacy, visit EFF's self-defense guide.",
+            })
+        );
+
+        c.appendChild(buildEFFButton());
 
         // Fetch IPs
         loadIPs(v4, v6);
@@ -400,14 +418,7 @@
                     "stoicswe.com sets no cookies and runs no analytics. The Wi-Fi / Network panes call api.ipify.org directly from your browser when opened — that's the only third-party request initiated from this site.",
             })
         );
-        var link = el("a", {
-            class: "settings-btn",
-            href: EFF_URL,
-            text: "EFF Surveillance Self-Defense Guide",
-            target: "_blank",
-            rel: "noopener noreferrer",
-        });
-        c.appendChild(link);
+        c.appendChild(buildEFFButton());
     }
 
     /* ---------- IP fetch ---------- */
