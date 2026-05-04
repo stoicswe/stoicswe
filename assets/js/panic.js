@@ -2,7 +2,9 @@
     if (typeof document === "undefined") return;
 
     var DAEMON = "/assets/images/freebsd.svg";
-    var AUTO_REBOOT_MS = 6500; // auto-transition into boot after this long
+    var AUTO_REBOOT_MS = 8000; // hold the panic on screen this long
+    var FADE_TO_BLACK_MS = 2000; // slow blue→black bg/text fade
+    var FINAL_FADE_MS = 1500; // panic-opacity fade revealing boot screen
     var DISMISS_READY_MS = 800; // ignore input briefly so the joke is readable
     var overlay = null;
     var savedOverflow = "";
@@ -19,13 +21,20 @@
             ".panic.is-on{opacity:1}",
             "@media(max-width:640px){.panic{padding:1.4em 1.1em;font-size:12px}}",
             ".panic__head{display:flex;align-items:center;gap:1.1em;margin-bottom:1.4em}",
-            ".panic__icon{width:64px;height:64px;flex:0 0 64px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4))}",
+            ".panic__icon{width:64px;height:64px;flex:0 0 64px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4));transition:opacity 1800ms ease}",
             ".panic__title{font-size:1.05em;font-weight:400;line-height:1.4;max-width:60ch}",
             ".panic p{margin:0 0 0.9em}",
             ".panic pre{margin:0 0 0.9em;font:inherit;white-space:pre-wrap;word-break:break-word;color:inherit}",
-            ".panic em{font-style:normal;background:#ffffff;color:#0000aa;padding:0 4px}",
-            ".panic__caret{display:inline-block;width:0.55em;height:1em;background:#fff;vertical-align:-2px;margin-left:0.25em;animation:panicBlink 1s step-end infinite}",
+            ".panic em{font-style:normal;background:#ffffff;color:#0000aa;padding:0 4px;transition:background-color " + FADE_TO_BLACK_MS + "ms ease,color " + FADE_TO_BLACK_MS + "ms ease}",
+            ".panic__caret{display:inline-block;width:0.55em;height:1em;background:#fff;vertical-align:-2px;margin-left:0.25em;animation:panicBlink 1s step-end infinite;transition:opacity 1200ms ease}",
             "@keyframes panicBlink{50%{opacity:0}}",
+            /* Phase 1 — slow fade of background + text to black */
+            ".panic.is-fading-to-black{transition:background-color " + FADE_TO_BLACK_MS + "ms ease,color " + FADE_TO_BLACK_MS + "ms ease;background:#000;color:#1a1a1a}",
+            ".panic.is-fading-to-black .panic__icon{opacity:0}",
+            ".panic.is-fading-to-black .panic__caret{opacity:0}",
+            ".panic.is-fading-to-black em{background:#000;color:#000}",
+            /* Phase 2 — panic itself fades out, revealing the boot screen below */
+            ".panic.is-clearing{transition:opacity " + FINAL_FADE_MS + "ms ease;opacity:0}",
         ].join("");
         document.head.appendChild(s);
     }
@@ -131,34 +140,36 @@
         }
         document.removeEventListener("keydown", onKey, true);
 
-        // Hand off to the boot module's blackout → boot-text → login flow.
-        // The blackout overlay sits at z-index 9000 (above our panic at 9500?
-        // — actually below, so we tear ours down once boot's blackout fades in).
+        // Phase 1 — start the slow blue-to-black fade of the panic itself
+        // (background + text), AND simultaneously kick off boot.js's flow
+        // (its blackout fades in beneath the panic; its boot screen mounts
+        // at +1s and starts streaming dmesg lines hidden under us).
+        if (overlay) overlay.classList.add("is-fading-to-black");
         if (window.StoicSweBoot && typeof window.StoicSweBoot.forceBoot === "function") {
             window.StoicSweBoot.forceBoot("restart");
-            // Wait until boot's blackout (800ms transition) is fully opaque,
-            // THEN fade the panic out so we transition blue → black smoothly
-            // without any flash of the underlying page.
-            setTimeout(teardown, 1100);
-        } else {
-            // Boot module unavailable — just dismiss back to the site.
-            teardown();
         }
+
+        // Phase 2 — once the panic is visually black, start fading the panic
+        // *layer* out so the boot screen (already rendering underneath)
+        // becomes visible gradually instead of snapping in.
+        setTimeout(function () {
+            if (overlay) overlay.classList.add("is-clearing");
+        }, FADE_TO_BLACK_MS);
+
+        // Remove the panic node from the DOM after the final fade completes.
+        setTimeout(teardown, FADE_TO_BLACK_MS + FINAL_FADE_MS + 100);
     }
 
     function teardown() {
         if (!overlay) return;
-        overlay.classList.remove("is-on");
         var n = overlay;
         overlay = null;
-        setTimeout(function () {
-            if (n && n.parentNode) n.parentNode.removeChild(n);
-            // boot.js manages its own scroll lock; only restore ours if it's not
-            // running, otherwise leave it to boot.js's unlockScroll().
-            if (!window.StoicSweBoot || !rebooting) {
-                document.documentElement.style.overflow = savedOverflow || "";
-            }
-        }, 240);
+        if (n.parentNode) n.parentNode.removeChild(n);
+        // boot.js owns the scroll lock from here; only restore our snapshot
+        // if it isn't running.
+        if (!window.StoicSweBoot || !rebooting) {
+            document.documentElement.style.overflow = savedOverflow || "";
+        }
     }
 
     window.StoicSwePanic = { show: show };
