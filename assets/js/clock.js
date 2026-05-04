@@ -1,7 +1,7 @@
 (function () {
     if (typeof document === "undefined") return;
 
-    var widget, hourHand, minuteHand, secondHand, tzLabel;
+    var widget, hourHand, minuteHand, tzLabel;
     var tickTimer = null;
 
     function ready(fn) {
@@ -14,56 +14,60 @@
         var s = document.createElement("style");
         s.id = "clock-critical";
         s.textContent = [
-            /* Anchored to the page's upper-right margin, scrolls with content
-               (position: absolute, not fixed). On viewports without a right
-               margin to spare, hidden via media query below. */
-            ".clock-widget{position:absolute;top:96px;right:24px;width:220px;z-index:90;background:rgba(246,246,248,0.92);-webkit-backdrop-filter:saturate(180%) blur(40px);backdrop-filter:saturate(180%) blur(40px);border:1px solid rgba(0,0,0,0.08);border-radius:12px;box-shadow:0 1px 0 rgba(255,255,255,0.6) inset,0 14px 36px rgba(0,0,0,0.18),0 4px 10px rgba(0,0,0,0.10);overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter','Segoe UI',sans-serif;color:#1d1d1f;opacity:0;transition:opacity 200ms ease,transform 220ms cubic-bezier(0.2,0.7,0.2,1);transform:translateY(-6px) scale(0.985)}",
-            ".clock-widget.is-on{opacity:1;transform:none}",
-            "@media(prefers-color-scheme:dark){.clock-widget{background:rgba(28,28,32,0.85);color:#f5f5f7;border-color:rgba(255,255,255,0.08);box-shadow:0 1px 0 rgba(255,255,255,0.06) inset,0 14px 36px rgba(0,0,0,0.5),0 4px 10px rgba(0,0,0,0.3)}}",
-            /* Hide on viewports without a right margin to spare */
-            "@media(max-width:1279px){.clock-widget{display:none}}",
-            ".clock-widget__titlebar{display:flex;align-items:center;height:32px;padding:0 10px;border-bottom:1px solid rgba(0,0,0,0.08);user-select:none;position:relative}",
-            "@media(prefers-color-scheme:dark){.clock-widget__titlebar{border-bottom-color:rgba(255,255,255,0.08)}}",
-            ".clock-widget__lights{display:flex;gap:6px;z-index:2}",
-            ".clock-widget__light{width:11px;height:11px;border-radius:50%;border:0;padding:0;box-shadow:inset 0 0 0 0.5px rgba(0,0,0,0.18);cursor:default}",
-            ".clock-widget__light--close{background:#ff5f57;cursor:pointer}",
-            ".clock-widget__light--min{background:#febc2e}",
-            ".clock-widget__light--max{background:#28c840}",
-            ".clock-widget__title{position:absolute;left:50%;transform:translateX(-50%);font-size:12px;font-weight:600;letter-spacing:-0.005em;pointer-events:none}",
-            ".clock-widget__body{padding:14px 12px 14px;text-align:center}",
-            ".clock-widget__face{width:172px;height:172px;display:block;margin:0 auto 6px}",
-            ".clock-widget__face-bg{fill:#fdfdf6;stroke:#1d1d1f;stroke-width:2}",
-            "@media(prefers-color-scheme:dark){.clock-widget__face-bg{fill:#1a1a1e;stroke:#dcdcdc}}",
-            ".clock-widget__tick--hour{stroke:#1d1d1f;stroke-width:2.4;stroke-linecap:round}",
-            "@media(prefers-color-scheme:dark){.clock-widget__tick--hour{stroke:#dcdcdc}}",
-            ".clock-widget__tick--min{stroke:#1d1d1f;stroke-width:1.1;stroke-linecap:round;opacity:0.55}",
-            "@media(prefers-color-scheme:dark){.clock-widget__tick--min{stroke:#dcdcdc;opacity:0.45}}",
-            ".clock-widget__hand{stroke-linecap:round;transform-origin:100px 100px;transform-box:fill-box}",
-            ".clock-widget__hand--hour{stroke:#1d1d1f;stroke-width:5}",
-            "@media(prefers-color-scheme:dark){.clock-widget__hand--hour{stroke:#dcdcdc}}",
-            ".clock-widget__hand--minute{stroke:#1d1d1f;stroke-width:3}",
-            "@media(prefers-color-scheme:dark){.clock-widget__hand--minute{stroke:#dcdcdc}}",
-            ".clock-widget__hand--second{stroke:#cf2e2e;stroke-width:1.5}",
-            ".clock-widget__pivot{fill:#cf2e2e;stroke:#1d1d1f;stroke-width:0.8}",
-            "@media(prefers-color-scheme:dark){.clock-widget__pivot{stroke:#dcdcdc}}",
-            ".clock-widget__tz{font-family:'SF Mono',ui-monospace,Menlo,Monaco,Consolas,monospace;font-size:10.5px;color:rgba(60,60,67,0.72);letter-spacing:0.02em;line-height:1.4}",
-            "@media(prefers-color-scheme:dark){.clock-widget__tz{color:rgba(235,235,245,0.65)}}",
-            ".clock-widget__tz strong{display:block;color:inherit;font-weight:600;margin-bottom:1px}",
+            /* Anchored to the page's upper-right margin, scrolls with the
+               page. Hidden when there's no margin to spare. */
+            ".xclock{position:absolute;top:96px;right:24px;width:206px;z-index:90;background:#bdbdbd;border:1px solid #1d1d1f;box-shadow:1px 1px 0 #fff inset,-1px -1px 0 #6f6f6f inset,2px 3px 6px rgba(0,0,0,0.18);font-family:'Lucida Console','Consolas','SF Mono',ui-monospace,Menlo,Monaco,monospace;color:#1d1d1f;opacity:0;transition:opacity 200ms ease}",
+            ".xclock.is-on{opacity:1}",
+            "@media(max-width:1279px){.xclock{display:none}}",
+            "@media(prefers-color-scheme:dark){.xclock{background:#3a3a3c;color:#f0f0f0;border-color:#0a0a0a;box-shadow:1px 1px 0 #5a5a5c inset,-1px -1px 0 #1a1a1c inset,2px 4px 10px rgba(0,0,0,0.45)}}",
+
+            /* Motif-style title bar: gray with subtle bevel, simple controls */
+            ".xclock__bar{display:flex;align-items:center;height:20px;padding:0 4px;background:linear-gradient(to bottom,#d4d4d4 0%,#b0b0b0 100%);border-bottom:1px solid #5f5f5f;font-size:11px;font-weight:700;letter-spacing:0.02em;user-select:none}",
+            "@media(prefers-color-scheme:dark){.xclock__bar{background:linear-gradient(to bottom,#4a4a4c 0%,#2c2c2e 100%);border-bottom-color:#0a0a0a;color:#f0f0f0}}",
+            ".xclock__title{flex:1;text-align:center;color:#1d1d1f}",
+            "@media(prefers-color-scheme:dark){.xclock__title{color:#f0f0f0}}",
+            ".xclock__controls{display:flex;gap:3px}",
+            ".xclock__btn{width:14px;height:14px;border:1px solid #1d1d1f;background:#bdbdbd;padding:0;font:inherit;font-size:9px;font-weight:700;line-height:0;color:#1d1d1f;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:1px 1px 0 #fff inset,-1px -1px 0 #707070 inset}",
+            ".xclock__btn:active{box-shadow:1px 1px 0 #707070 inset,-1px -1px 0 #fff inset}",
+            "@media(prefers-color-scheme:dark){.xclock__btn{background:#3a3a3c;color:#f0f0f0;border-color:#0a0a0a;box-shadow:1px 1px 0 #5a5a5c inset,-1px -1px 0 #1a1a1c inset}}",
+
+            /* Body — white face on padded gray frame */
+            ".xclock__body{padding:8px;background:#bdbdbd}",
+            "@media(prefers-color-scheme:dark){.xclock__body{background:#3a3a3c}}",
+            ".xclock__face-frame{background:#ffffff;border:1px solid #1d1d1f;box-shadow:-1px -1px 0 #fff,1px 1px 0 #707070;padding:0}",
+            "@media(prefers-color-scheme:dark){.xclock__face-frame{background:#0e0e10;border-color:#0a0a0a;box-shadow:-1px -1px 0 #5a5a5c,1px 1px 0 #1a1a1c}}",
+            ".xclock__face{display:block;width:100%;height:auto}",
+            ".xclock__ring{fill:#ffffff;stroke:#1d1d1f;stroke-width:1.5}",
+            "@media(prefers-color-scheme:dark){.xclock__ring{fill:#0e0e10;stroke:#dcdcdc}}",
+            ".xclock__tick{stroke:#1d1d1f;stroke-linecap:butt}",
+            "@media(prefers-color-scheme:dark){.xclock__tick{stroke:#dcdcdc}}",
+            ".xclock__hand{fill:#1d1d1f;stroke:none}",
+            "@media(prefers-color-scheme:dark){.xclock__hand{fill:#dcdcdc}}",
+            ".xclock__pivot{fill:#1d1d1f}",
+            "@media(prefers-color-scheme:dark){.xclock__pivot{fill:#dcdcdc}}",
+
+            /* Timezone footer — looks like part of the same Motif window */
+            ".xclock__tz{padding:6px 8px 8px;background:#bdbdbd;text-align:center;font-size:10px;line-height:1.45;color:#1d1d1f;border-top:1px solid #6f6f6f;box-shadow:0 1px 0 #fff inset}",
+            "@media(prefers-color-scheme:dark){.xclock__tz{background:#3a3a3c;color:#f0f0f0;border-top-color:#0a0a0a;box-shadow:0 1px 0 #5a5a5c inset}}",
+            ".xclock__tz strong{display:block;font-weight:700;letter-spacing:0.01em;margin-bottom:1px}",
+            ".xclock__tz span{opacity:0.78}",
         ].join("");
         document.head.appendChild(s);
     }
 
     function buildTicks() {
+        // 60 uniform ticks; the cardinal four (12/3/6/9) are slightly thicker.
         var out = "";
         for (var i = 0; i < 60; i++) {
+            var isCardinal = i % 15 === 0;
             var isHour = i % 5 === 0;
-            var cls = isHour ? "clock-widget__tick--hour" : "clock-widget__tick--min";
-            var y2 = isHour ? 22 : 18;
+            var len = isHour ? 8 : 4;
+            var width = isCardinal ? 2.4 : isHour ? 1.6 : 1;
             out +=
-                '<line class="' +
-                cls +
-                '" x1="100" y1="14" x2="100" y2="' +
-                y2 +
+                '<line class="xclock__tick" x1="100" y1="6" x2="100" y2="' +
+                (6 + len) +
+                '" stroke-width="' +
+                width +
                 '" transform="rotate(' +
                 i * 6 +
                 ' 100 100)"/>';
@@ -73,48 +77,48 @@
 
     function buildWidget() {
         widget = document.createElement("div");
-        widget.className = "clock-widget";
+        widget.className = "xclock";
         widget.setAttribute("role", "complementary");
-        widget.setAttribute("aria-label", "Analog clock");
+        widget.setAttribute("aria-label", "xclock");
         widget.innerHTML =
-            '<div class="clock-widget__titlebar">' +
-            '<div class="clock-widget__lights">' +
-            '<button class="clock-widget__light clock-widget__light--close" type="button" aria-label="Close"></button>' +
-            '<span class="clock-widget__light clock-widget__light--min" aria-hidden="true"></span>' +
-            '<span class="clock-widget__light clock-widget__light--max" aria-hidden="true"></span>' +
+            '<div class="xclock__bar">' +
+            '<span class="xclock__title">xclock</span>' +
+            '<div class="xclock__controls">' +
+            '<button class="xclock__btn" type="button" aria-label="Minimize">_</button>' +
+            '<button class="xclock__btn xclock__btn--close" type="button" aria-label="Close">×</button>' +
             "</div>" +
-            '<span class="clock-widget__title">Clock</span>' +
             "</div>" +
-            '<div class="clock-widget__body">' +
-            '<svg class="clock-widget__face" viewBox="0 0 200 200" aria-hidden="true">' +
-            '<circle class="clock-widget__face-bg" cx="100" cy="100" r="92"/>' +
+            '<div class="xclock__body">' +
+            '<div class="xclock__face-frame">' +
+            '<svg class="xclock__face" viewBox="0 0 200 200" aria-hidden="true">' +
+            '<circle class="xclock__ring" cx="100" cy="100" r="94"/>' +
             buildTicks() +
-            '<line class="clock-widget__hand clock-widget__hand--hour" x1="100" y1="100" x2="100" y2="50"/>' +
-            '<line class="clock-widget__hand clock-widget__hand--minute" x1="100" y1="100" x2="100" y2="32"/>' +
-            '<line class="clock-widget__hand clock-widget__hand--second" x1="100" y1="112" x2="100" y2="26"/>' +
-            '<circle class="clock-widget__pivot" cx="100" cy="100" r="3.5"/>' +
+            // Hour hand: short kite/diamond
+            '<polygon class="xclock__hand xclock__hand--hour" points="100,55 105,100 100,108 95,100"/>' +
+            // Minute hand: long, narrow kite
+            '<polygon class="xclock__hand xclock__hand--minute" points="100,22 103,100 100,108 97,100"/>' +
+            '<circle class="xclock__pivot" cx="100" cy="100" r="2.5"/>' +
             "</svg>" +
-            '<div class="clock-widget__tz"><strong></strong><span></span></div>' +
-            "</div>";
+            "</div>" +
+            "</div>" +
+            '<div class="xclock__tz"><strong></strong><span></span></div>';
 
         document.body.appendChild(widget);
-        hourHand = widget.querySelector(".clock-widget__hand--hour");
-        minuteHand = widget.querySelector(".clock-widget__hand--minute");
-        secondHand = widget.querySelector(".clock-widget__hand--second");
-        tzLabel = widget.querySelector(".clock-widget__tz");
+        hourHand = widget.querySelector(".xclock__hand--hour");
+        minuteHand = widget.querySelector(".xclock__hand--minute");
+        tzLabel = widget.querySelector(".xclock__tz");
 
-        // Close
-        widget
-            .querySelector(".clock-widget__light--close")
-            .addEventListener("click", function () {
-                if (tickTimer) clearInterval(tickTimer);
-                tickTimer = null;
-                widget.classList.remove("is-on");
-                setTimeout(function () {
-                    if (widget && widget.parentNode) widget.parentNode.removeChild(widget);
-                    widget = null;
-                }, 220);
-            });
+        // Close button (red X) tears the widget down for the session
+        widget.querySelector(".xclock__btn--close").addEventListener("click", function () {
+            if (tickTimer) clearInterval(tickTimer);
+            tickTimer = null;
+            widget.classList.remove("is-on");
+            var w = widget;
+            widget = null;
+            setTimeout(function () {
+                if (w && w.parentNode) w.parentNode.removeChild(w);
+            }, 220);
+        });
 
         requestAnimationFrame(function () {
             if (widget) widget.classList.add("is-on");
@@ -128,15 +132,19 @@
         var minutes = d.getMinutes();
         var seconds = d.getSeconds() + d.getMilliseconds() / 1000;
 
+        // Fractional rotations so the hour hand drifts smoothly over the hour
+        // and the minute hand sweeps with seconds — feels closer to a real
+        // analog mechanism than discrete ticks.
         var hourDeg = ((hours % 12) + minutes / 60 + seconds / 3600) * 30;
         var minuteDeg = (minutes + seconds / 60) * 6;
-        var secondDeg = seconds * 6;
 
+        // SVG attribute transform — rotation around explicit pivot (100,100).
+        // No CSS transform-box / transform-origin involved (those break SVG
+        // attribute rotations on bbox-zero elements like vertical lines).
         hourHand.setAttribute("transform", "rotate(" + hourDeg + " 100 100)");
         minuteHand.setAttribute("transform", "rotate(" + minuteDeg + " 100 100)");
-        secondHand.setAttribute("transform", "rotate(" + secondDeg + " 100 100)");
 
-        // Refresh tz label (handles DST transitions over a long-running session)
+        // Timezone label
         var tz = "UTC";
         try {
             tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
@@ -157,8 +165,6 @@
     }
 
     ready(function () {
-        // Don't show if the viewport is too narrow — CSS hides it anyway,
-        // but we can also avoid building the DOM at all on small screens.
         if (window.innerWidth < 1280) return;
         injectCSS();
         buildWidget();
