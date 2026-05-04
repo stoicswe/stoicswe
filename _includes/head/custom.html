@@ -5,9 +5,23 @@
     rel="stylesheet"
 />
 <link
+    id="stoicswe-dark-css"
     rel="stylesheet"
     href="{{ '/assets/css/dark.css' | relative_url }}"
     media="(prefers-color-scheme: dark)"
 />
+<script>
+    /* Apply saved theme preference before paint to avoid a flash. */
+    (function () {
+        try {
+            var t = localStorage.getItem("stoicswe-theme");
+            if (t === "dark" || t === "light") {
+                var l = document.getElementById("stoicswe-dark-css");
+                if (l) l.media = t === "dark" ? "all" : "not all";
+            }
+        } catch (e) {}
+    })();
+</script>
 <script src="{{ '/assets/js/boot.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/system-settings.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/apple-menu.js' | relative_url }}" defer></script>

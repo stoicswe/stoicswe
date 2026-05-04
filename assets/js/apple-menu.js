@@ -36,7 +36,7 @@
     var MENU = [
         { label: "About This Mac", icon: "monitor", action: "about" },
         { separator: true },
-        { label: "System Settings…", icon: "gear", disabled: true },
+        { label: "System Settings…", icon: "gear", action: "settings" },
         { label: "App Store…", icon: "apple", disabled: true },
         { separator: true },
         { label: "Recent Items", icon: "clock", arrow: true, disabled: true },
@@ -209,6 +209,9 @@
                 if (item.action === "about") {
                     closeMenu();
                     openAbout();
+                } else if (item.action === "settings") {
+                    closeMenu();
+                    if (window.StoicSweSettings) window.StoicSweSettings.open();
                 } else if (item.action === "restart" || item.action === "shutdown") {
                     closeMenu();
                     if (window.StoicSweBoot) window.StoicSweBoot.show(item.action);
