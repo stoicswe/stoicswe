@@ -422,6 +422,9 @@
         // Skip the confirmation dialog and countdown — used when something
         // upstream (e.g. a kernel panic) has already decided we're rebooting.
         if (state !== "idle") return;
+        injectCSS(); // critical: showDialog normally does this; skipping it
+                     // would leave .boot-blackout / .boot-screen unstyled and
+                     // the boot text would render as plain DOM over the page.
         startBlackout(action || "restart");
     }
 
