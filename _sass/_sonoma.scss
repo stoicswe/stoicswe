@@ -910,3 +910,87 @@ figure figcaption,
 .archive__item-teaser img {
     border-radius: var(--sonoma-radius-sm);
 }
+
+/* =========================================================
+   Bluesky embed: undo our card chrome and element overrides
+   so <bsky-embed> renders with its own native styles.
+   ========================================================= */
+body.layout--bsky-feed .page__content {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-radius: 0;
+    padding: 1em 0 0;
+}
+body.layout--bsky-feed .page__content::before,
+body.layout--bsky-feed .page__content::after {
+    display: none;
+}
+
+.bsky-feed,
+bsky-embed {
+    display: block;
+    color: var(--sonoma-text);
+}
+
+bsky-embed a,
+bsky-embed a:visited,
+bsky-embed a:hover {
+    color: inherit;
+    text-decoration: none;
+}
+bsky-embed img {
+    border-radius: 0;
+}
+bsky-embed blockquote {
+    border-left: 0;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+    font-style: inherit;
+}
+bsky-embed table,
+bsky-embed th,
+bsky-embed td {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+bsky-embed pre,
+bsky-embed code {
+    background: transparent;
+    border: 0;
+    color: inherit;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+}
+bsky-embed input,
+bsky-embed textarea,
+bsky-embed select {
+    background: revert;
+    border: revert;
+    border-radius: revert;
+    padding: revert;
+    color: inherit;
+    box-shadow: none;
+}
+bsky-embed .btn,
+bsky-embed button {
+    background: revert;
+    border: revert;
+    border-radius: revert;
+    box-shadow: none;
+    transform: none;
+    padding: revert;
+    color: inherit;
+}
+bsky-embed hr {
+    border-top-color: rgba(128, 128, 128, 0.25);
+}
