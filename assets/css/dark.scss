@@ -34,3 +34,43 @@ $header-font-family: $sans-serif-narrow;
 
 @import "minimal-mistakes/skins/dark"; // dark skin
 @import "minimal-mistakes"; // main partials
+@import "sonoma"; // macOS Sonoma overlay (carries light tokens)
+
+/* Override Sonoma tokens for dark mode. Loaded only when the user's OS
+   is in dark mode (via media="(prefers-color-scheme: dark)" on the link),
+   and arrives after main.css in the cascade so these values win. */
+:root {
+    --sonoma-bg-1: #1a1a1f;
+    --sonoma-bg-2: #0e0e12;
+    --sonoma-bg-tint-1: rgba(120, 70, 180, 0.22);
+    --sonoma-bg-tint-2: rgba(40, 90, 200, 0.18);
+
+    --sonoma-vibrancy: rgba(28, 28, 32, 0.7);
+    --sonoma-vibrancy-strong: rgba(28, 28, 32, 0.88);
+    --sonoma-card: rgba(54, 54, 60, 0.55);
+    --sonoma-card-strong: rgba(46, 46, 52, 0.85);
+
+    --sonoma-text: #f5f5f7;
+    --sonoma-text-secondary: rgba(235, 235, 245, 0.65);
+    --sonoma-text-tertiary: rgba(235, 235, 245, 0.4);
+
+    --sonoma-hairline: rgba(255, 255, 255, 0.08);
+    --sonoma-hairline-strong: rgba(255, 255, 255, 0.16);
+    --sonoma-inner-highlight: rgba(255, 255, 255, 0.06);
+
+    --sonoma-accent: #0a84ff;
+    --sonoma-accent-hover: #409cff;
+    --sonoma-accent-tint: rgba(10, 132, 255, 0.22);
+
+    --sonoma-code-bg: rgba(255, 255, 255, 0.08);
+    --sonoma-pre-bg: rgba(20, 20, 24, 0.85);
+    --sonoma-pre-fg: #f5f5f7;
+
+    --sonoma-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.45);
+    --sonoma-shadow-2: 0 4px 10px rgba(0, 0, 0, 0.45), 0 18px 48px rgba(0, 0, 0, 0.55);
+
+    --sonoma-scrollbar-thumb: rgba(255, 255, 255, 0.22);
+    --sonoma-scrollbar-thumb-hover: rgba(255, 255, 255, 0.42);
+
+    --sonoma-selection: rgba(10, 132, 255, 0.32);
+}

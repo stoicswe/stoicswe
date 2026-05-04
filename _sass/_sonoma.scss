@@ -1,0 +1,878 @@
+// macOS Sonoma-inspired skin layered over Minimal Mistakes.
+// Uses CSS custom properties for theming so a single set of rules
+// covers both the light entry stylesheet and the dark one (which
+// overrides the tokens via a trailing :root block).
+
+// Light-mode token defaults. dark.scss redeclares these.
+:root {
+    --sonoma-bg-1: #f6f4f8;
+    --sonoma-bg-2: #ebe7ee;
+    --sonoma-bg-tint-1: rgba(255, 190, 215, 0.32);
+    --sonoma-bg-tint-2: rgba(170, 195, 255, 0.28);
+
+    --sonoma-vibrancy: rgba(246, 246, 248, 0.72);
+    --sonoma-vibrancy-strong: rgba(246, 246, 248, 0.88);
+    --sonoma-card: rgba(255, 255, 255, 0.62);
+    --sonoma-card-strong: rgba(255, 255, 255, 0.92);
+
+    --sonoma-text: #1d1d1f;
+    --sonoma-text-secondary: rgba(60, 60, 67, 0.68);
+    --sonoma-text-tertiary: rgba(60, 60, 67, 0.45);
+
+    --sonoma-hairline: rgba(0, 0, 0, 0.08);
+    --sonoma-hairline-strong: rgba(0, 0, 0, 0.14);
+    --sonoma-inner-highlight: rgba(255, 255, 255, 0.6);
+
+    --sonoma-accent: #0071e3;
+    --sonoma-accent-hover: #0077ed;
+    --sonoma-accent-tint: rgba(0, 113, 227, 0.12);
+
+    --sonoma-code-bg: rgba(0, 0, 0, 0.05);
+    --sonoma-pre-bg: #1d1d1f;
+    --sonoma-pre-fg: #f5f5f7;
+
+    --sonoma-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 6px 18px rgba(0, 0, 0, 0.06);
+    --sonoma-shadow-2: 0 4px 10px rgba(0, 0, 0, 0.07), 0 16px 48px rgba(0, 0, 0, 0.10);
+
+    --sonoma-scrollbar-thumb: rgba(0, 0, 0, 0.25);
+    --sonoma-scrollbar-thumb-hover: rgba(0, 0, 0, 0.42);
+
+    --sonoma-selection: rgba(0, 113, 227, 0.25);
+
+    --sonoma-radius-sm: 8px;
+    --sonoma-radius: 12px;
+    --sonoma-radius-lg: 16px;
+    --sonoma-radius-xl: 20px;
+
+    --sonoma-blur: saturate(180%) blur(30px);
+    --sonoma-blur-heavy: saturate(180%) blur(50px);
+}
+
+$sonoma-font:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "SF Pro Display",
+    "SF Pro",
+    "Inter",
+    "Ubuntu",
+    "Segoe UI",
+    Helvetica,
+    Arial,
+    sans-serif;
+$sonoma-mono:
+    "SF Mono",
+    ui-monospace,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
+
+/* =========================================================
+   Page surface — wallpaper-ish gradient, fixed so frosted
+   surfaces always have something to refract.
+   ========================================================= */
+html {
+    background:
+        radial-gradient(at 0% 0%, var(--sonoma-bg-tint-1), transparent 55%),
+        radial-gradient(at 100% 100%, var(--sonoma-bg-tint-2), transparent 55%),
+        linear-gradient(180deg, var(--sonoma-bg-1), var(--sonoma-bg-2));
+    background-attachment: fixed;
+    background-color: var(--sonoma-bg-2);
+    min-height: 100%;
+    color: var(--sonoma-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background: transparent;
+    color: var(--sonoma-text);
+    font-family: $sonoma-font;
+    font-feature-settings: "kern", "liga", "calt";
+    letter-spacing: -0.003em;
+}
+
+::selection {
+    background: var(--sonoma-selection);
+    color: var(--sonoma-text);
+}
+
+/* =========================================================
+   Custom scrollbars
+   ========================================================= */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sonoma-scrollbar-thumb) transparent;
+}
+::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--sonoma-scrollbar-thumb);
+    background-clip: padding-box;
+    border: 4px solid transparent;
+    border-radius: 999px;
+    transition: background 150ms ease;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--sonoma-scrollbar-thumb-hover);
+    background-clip: padding-box;
+    border: 4px solid transparent;
+}
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* =========================================================
+   Typography
+   ========================================================= */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.page__title,
+.archive__item-title,
+.greedy-nav .site-title {
+    font-family: $sonoma-font;
+    letter-spacing: -0.022em;
+    font-weight: 600;
+    color: var(--sonoma-text);
+}
+
+p,
+li,
+figcaption,
+.page__content,
+.page__content p,
+.page__content li {
+    color: var(--sonoma-text);
+}
+
+a,
+a:visited {
+    color: var(--sonoma-accent);
+    text-decoration: none;
+    transition: color 120ms ease;
+}
+a:hover {
+    color: var(--sonoma-accent-hover);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+}
+
+/* =========================================================
+   Masthead — sticky frosted toolbar with traffic-light dots
+   ========================================================= */
+.masthead {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--sonoma-vibrancy);
+    -webkit-backdrop-filter: var(--sonoma-blur);
+    backdrop-filter: var(--sonoma-blur);
+    border-bottom: 1px solid var(--sonoma-hairline);
+    box-shadow: 0 1px 0 var(--sonoma-inner-highlight) inset;
+}
+
+.masthead::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 12px;
+    background:
+        radial-gradient(circle at 6px 6px, #ff5f57 5.5px, transparent 6px),
+        radial-gradient(circle at 26px 6px, #febc2e 5.5px, transparent 6px),
+        radial-gradient(circle at 46px 6px, #28c840 5.5px, transparent 6px);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.92;
+}
+
+@media (max-width: 768px) {
+    .masthead::before {
+        display: none;
+    }
+}
+
+.greedy-nav {
+    background: transparent;
+    padding-left: 84px;
+
+    @media (max-width: 768px) {
+        padding-left: 1em;
+    }
+
+    .site-title {
+        font-weight: 600;
+        letter-spacing: -0.018em;
+        color: var(--sonoma-text);
+    }
+    .site-subtitle {
+        color: var(--sonoma-text-secondary);
+    }
+
+    a {
+        color: var(--sonoma-text);
+    }
+    a:hover {
+        color: var(--sonoma-accent);
+        text-decoration: none;
+    }
+
+    .visible-links a:before {
+        background: var(--sonoma-accent);
+        height: 2px;
+    }
+
+    button.search__toggle {
+        color: var(--sonoma-text);
+        border-radius: var(--sonoma-radius-sm);
+        transition:
+            background 150ms ease,
+            color 150ms ease;
+    }
+    button.search__toggle:hover {
+        color: var(--sonoma-accent);
+        background: var(--sonoma-accent-tint);
+    }
+
+    .greedy-nav__toggle {
+        color: var(--sonoma-text);
+    }
+}
+
+/* Hidden links dropdown — frosted */
+.greedy-nav .hidden-links {
+    background: var(--sonoma-vibrancy-strong);
+    -webkit-backdrop-filter: var(--sonoma-blur);
+    backdrop-filter: var(--sonoma-blur);
+    border: 1px solid var(--sonoma-hairline);
+    border-radius: var(--sonoma-radius);
+    box-shadow: var(--sonoma-shadow-2);
+
+    a {
+        color: var(--sonoma-text);
+    }
+    a:hover {
+        background: var(--sonoma-accent-tint);
+        color: var(--sonoma-accent);
+    }
+    &::before,
+    &::after {
+        display: none;
+    }
+}
+
+/* =========================================================
+   Author sidebar — frosted card stack
+   ========================================================= */
+.sidebar {
+    .author__avatar img {
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        box-shadow: var(--sonoma-shadow-1);
+    }
+
+    .author__content,
+    .author__urls-wrapper {
+        background: var(--sonoma-card);
+        -webkit-backdrop-filter: var(--sonoma-blur);
+        backdrop-filter: var(--sonoma-blur);
+        border: 1px solid var(--sonoma-hairline);
+        border-radius: var(--sonoma-radius);
+        padding: 1em 1.2em;
+        margin-bottom: 1em;
+        box-shadow: var(--sonoma-shadow-1);
+    }
+
+    .author__name {
+        color: var(--sonoma-text);
+        font-weight: 600;
+    }
+    .author__bio {
+        color: var(--sonoma-text-secondary);
+        font-size: 0.9em;
+        line-height: 1.45;
+    }
+    .author__pronouns {
+        color: var(--sonoma-text-tertiary);
+    }
+
+    .author__urls {
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        padding: 0;
+
+        li {
+            margin-bottom: 0.35em;
+        }
+        a {
+            color: var(--sonoma-text);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            padding: 0.4em 0.7em;
+            border-radius: var(--sonoma-radius-sm);
+            transition:
+                background 120ms ease,
+                color 120ms ease;
+        }
+        a:hover {
+            background: var(--sonoma-accent-tint);
+            color: var(--sonoma-accent);
+            text-decoration: none;
+        }
+    }
+
+    .author__urls-wrapper button {
+        color: var(--sonoma-text);
+        background: var(--sonoma-card-strong);
+        border: 1px solid var(--sonoma-hairline);
+        border-radius: var(--sonoma-radius-sm);
+    }
+}
+
+/* =========================================================
+   Content surfaces — post body + archive cards
+   ========================================================= */
+#main {
+    padding-top: 1.5em;
+}
+
+.page__content,
+.archive__item {
+    background: var(--sonoma-card-strong);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--sonoma-hairline);
+    border-radius: var(--sonoma-radius-lg);
+    padding: 1.5em 1.75em;
+    box-shadow: var(--sonoma-shadow-1);
+    margin-bottom: 1.5em;
+}
+
+.archive__item {
+    padding: 1.25em 1.5em;
+    transition:
+        transform 200ms ease,
+        box-shadow 200ms ease;
+}
+.archive__item:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--sonoma-shadow-2);
+}
+
+.archive__item-title {
+    margin-top: 0;
+    color: var(--sonoma-text);
+}
+.archive__item-title a {
+    color: var(--sonoma-text);
+}
+.archive__item-title a:hover {
+    color: var(--sonoma-accent);
+    text-decoration: none;
+}
+.archive__item-excerpt {
+    color: var(--sonoma-text-secondary);
+}
+.archive__subtitle {
+    color: var(--sonoma-text-secondary);
+    border-bottom: 1px solid var(--sonoma-hairline);
+    padding-bottom: 0.4em;
+}
+
+.page__title {
+    margin-top: 0;
+    letter-spacing: -0.025em;
+}
+.page__meta,
+.page__date {
+    color: var(--sonoma-text-secondary);
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+.btn {
+    border-radius: var(--sonoma-radius-sm);
+    font-weight: 500;
+    padding: 0.5em 1em;
+    letter-spacing: -0.01em;
+    border: 1px solid var(--sonoma-hairline-strong);
+    background: var(--sonoma-card-strong);
+    color: var(--sonoma-text);
+    box-shadow:
+        0 1px 0 var(--sonoma-inner-highlight) inset,
+        var(--sonoma-shadow-1);
+    transition:
+        transform 120ms ease,
+        box-shadow 120ms ease,
+        background 120ms ease,
+        color 120ms ease;
+}
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 1px 0 var(--sonoma-inner-highlight) inset,
+        var(--sonoma-shadow-2);
+    color: var(--sonoma-text);
+}
+
+.btn--primary,
+.btn--info,
+.btn--success,
+.btn--inverse {
+    background: var(--sonoma-accent);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: var(--sonoma-shadow-1);
+}
+.btn--primary:hover,
+.btn--info:hover,
+.btn--success:hover,
+.btn--inverse:hover {
+    background: var(--sonoma-accent-hover);
+    color: #fff;
+}
+
+.btn--warning {
+    background: #ff9f0a;
+    color: #fff;
+    border-color: transparent;
+}
+.btn--danger {
+    background: #ff453a;
+    color: #fff;
+    border-color: transparent;
+}
+
+/* =========================================================
+   Tags / categories pills
+   ========================================================= */
+.page__taxonomy .btn,
+.taxonomy__index a,
+.archive__item .page__meta a,
+.page__meta a {
+    background: var(--sonoma-card);
+    border: 1px solid var(--sonoma-hairline);
+    color: var(--sonoma-text-secondary);
+    border-radius: 999px;
+    padding: 0.2em 0.7em;
+    font-size: 0.78em;
+    box-shadow: none;
+}
+.page__taxonomy .btn:hover,
+.taxonomy__index a:hover,
+.archive__item .page__meta a:hover,
+.page__meta a:hover {
+    color: var(--sonoma-accent);
+    background: var(--sonoma-accent-tint);
+    border-color: transparent;
+    text-decoration: none;
+    transform: none;
+    box-shadow: none;
+}
+
+/* =========================================================
+   Footer — frosted strip
+   ========================================================= */
+.page__footer {
+    background: var(--sonoma-vibrancy);
+    -webkit-backdrop-filter: var(--sonoma-blur);
+    backdrop-filter: var(--sonoma-blur);
+    border-top: 1px solid var(--sonoma-hairline);
+    color: var(--sonoma-text-secondary);
+}
+.page__footer footer {
+    color: var(--sonoma-text-secondary);
+}
+.page__footer a,
+.page__footer a:visited {
+    color: var(--sonoma-text-secondary);
+}
+.page__footer a:hover {
+    color: var(--sonoma-accent);
+}
+.page__footer .page__footer-copyright {
+    color: var(--sonoma-text-tertiary);
+}
+.page__footer-follow .social-icons a {
+    color: var(--sonoma-text-secondary);
+}
+.page__footer-follow .social-icons a:hover {
+    color: var(--sonoma-accent);
+}
+
+/* =========================================================
+   Code — inline + blocks
+   ========================================================= */
+code,
+pre,
+kbd,
+samp,
+tt {
+    font-family: $sonoma-mono;
+    font-feature-settings: "liga" 0;
+    font-size: 0.92em;
+}
+
+p code,
+li code,
+td code,
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code,
+a > code {
+    background: var(--sonoma-code-bg);
+    color: var(--sonoma-text);
+    padding: 0.12em 0.4em;
+    border-radius: 6px;
+    border: 1px solid var(--sonoma-hairline);
+}
+
+pre,
+.highlight,
+div.highlighter-rouge,
+figure.highlight {
+    background: var(--sonoma-pre-bg);
+    color: var(--sonoma-pre-fg);
+    border-radius: var(--sonoma-radius);
+    border: 1px solid var(--sonoma-hairline);
+    padding: 1em 1.2em;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        var(--sonoma-shadow-1);
+    overflow: auto;
+}
+pre code,
+.highlight code,
+div.highlighter-rouge code,
+figure.highlight code,
+.highlight pre {
+    background: transparent;
+    color: inherit;
+    border: 0;
+    padding: 0;
+}
+
+kbd {
+    background: var(--sonoma-card-strong);
+    border: 1px solid var(--sonoma-hairline-strong);
+    border-radius: 6px;
+    box-shadow:
+        0 1px 0 var(--sonoma-inner-highlight) inset,
+        0 1px 1px rgba(0, 0, 0, 0.08);
+    padding: 0.1em 0.45em;
+    color: var(--sonoma-text);
+}
+
+/* =========================================================
+   Search modal — Spotlight-style
+   ========================================================= */
+.search-content {
+    background: rgba(0, 0, 0, 0.18);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    transition: opacity 200ms ease;
+}
+
+.search-content__inner-wrap {
+    max-width: 680px;
+    padding-top: 8vh;
+}
+
+.search-content input.search-input,
+.search-input {
+    background: var(--sonoma-vibrancy-strong);
+    -webkit-backdrop-filter: var(--sonoma-blur-heavy);
+    backdrop-filter: var(--sonoma-blur-heavy);
+    border: 1px solid var(--sonoma-hairline);
+    border-radius: var(--sonoma-radius);
+    padding: 0.9em 1.2em;
+    font-size: 1.4em;
+    font-weight: 400;
+    color: var(--sonoma-text);
+    box-shadow: var(--sonoma-shadow-2);
+    width: 100%;
+    margin: 0;
+}
+.search-content input.search-input:focus,
+.search-input:focus {
+    outline: none;
+    border-color: var(--sonoma-accent);
+    box-shadow:
+        var(--sonoma-shadow-2),
+        0 0 0 4px var(--sonoma-accent-tint);
+}
+
+.search-content .results__found {
+    color: var(--sonoma-text-secondary);
+    margin-top: 1em;
+}
+.search-content .archive__item {
+    background: var(--sonoma-card);
+}
+
+/* =========================================================
+   Hero header
+   ========================================================= */
+.page__hero,
+.page__hero--overlay {
+    border-radius: var(--sonoma-radius-lg);
+    overflow: hidden;
+    margin-bottom: 1.5em;
+}
+.page__hero--overlay .page__title,
+.page__hero--overlay .page__meta,
+.page__hero--overlay .page__lead {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+/* =========================================================
+   Table of contents
+   ========================================================= */
+.toc {
+    background: var(--sonoma-card);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--sonoma-hairline);
+    border-radius: var(--sonoma-radius);
+    box-shadow: var(--sonoma-shadow-1);
+    overflow: hidden;
+}
+.toc .nav__title {
+    background: transparent;
+    color: var(--sonoma-text);
+    border-bottom: 1px solid var(--sonoma-hairline);
+}
+.toc__menu {
+    background: transparent;
+}
+.toc__menu a {
+    color: var(--sonoma-text-secondary);
+    border-bottom: 1px solid var(--sonoma-hairline);
+}
+.toc__menu a:hover {
+    color: var(--sonoma-accent);
+    background: var(--sonoma-accent-tint);
+}
+.toc__menu .active a {
+    color: var(--sonoma-accent);
+    border-left: 2px solid var(--sonoma-accent);
+    background: var(--sonoma-accent-tint);
+}
+
+/* Sidebar nav lists in general */
+.nav__list,
+.nav__items {
+    background: var(--sonoma-card);
+    border: 1px solid var(--sonoma-hairline);
+    border-radius: var(--sonoma-radius);
+    overflow: hidden;
+}
+
+/* =========================================================
+   Pagination
+   ========================================================= */
+.pagination ul {
+    display: inline-flex;
+    background: var(--sonoma-card);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--sonoma-hairline);
+    border-radius: var(--sonoma-radius);
+    overflow: hidden;
+    box-shadow: var(--sonoma-shadow-1);
+    padding: 0;
+}
+.pagination li a,
+.pagination li button,
+.pagination li span {
+    color: var(--sonoma-text);
+    border: 0;
+    background: transparent;
+}
+.pagination li a:hover {
+    background: var(--sonoma-accent-tint);
+    color: var(--sonoma-accent);
+}
+.pagination li .current,
+.pagination li a.current {
+    background: var(--sonoma-accent);
+    color: #fff;
+}
+.pagination li .disabled {
+    color: var(--sonoma-text-tertiary);
+}
+
+/* =========================================================
+   Notice blocks
+   ========================================================= */
+.notice,
+.notice--primary,
+.notice--info,
+.notice--warning,
+.notice--success,
+.notice--danger {
+    background: var(--sonoma-card);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--sonoma-hairline);
+    border-left-width: 4px;
+    border-radius: var(--sonoma-radius);
+    box-shadow: var(--sonoma-shadow-1);
+    color: var(--sonoma-text);
+    padding: 0.8em 1em;
+}
+.notice--primary {
+    border-left-color: var(--sonoma-accent);
+}
+.notice--info {
+    border-left-color: #5ac8fa;
+}
+.notice--warning {
+    border-left-color: #ff9f0a;
+}
+.notice--success {
+    border-left-color: #34c759;
+}
+.notice--danger {
+    border-left-color: #ff453a;
+}
+
+/* =========================================================
+   Tables
+   ========================================================= */
+table {
+    background: var(--sonoma-card);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-radius: var(--sonoma-radius);
+    border: 1px solid var(--sonoma-hairline);
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: var(--sonoma-shadow-1);
+}
+th {
+    background: var(--sonoma-vibrancy);
+    color: var(--sonoma-text);
+    font-weight: 600;
+    border-bottom: 1px solid var(--sonoma-hairline);
+}
+td,
+th {
+    border-color: var(--sonoma-hairline);
+    color: var(--sonoma-text);
+}
+tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+/* =========================================================
+   Forms
+   ========================================================= */
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+    background: var(--sonoma-card-strong);
+    border: 1px solid var(--sonoma-hairline-strong);
+    border-radius: var(--sonoma-radius-sm);
+    color: var(--sonoma-text);
+    padding: 0.5em 0.75em;
+    transition:
+        border-color 120ms ease,
+        box-shadow 120ms ease;
+}
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--sonoma-accent);
+    box-shadow: 0 0 0 4px var(--sonoma-accent-tint);
+}
+
+/* =========================================================
+   Misc
+   ========================================================= */
+hr {
+    border: 0;
+    border-top: 1px solid var(--sonoma-hairline);
+    margin: 1.5em 0;
+}
+blockquote {
+    border-left: 3px solid var(--sonoma-accent);
+    color: var(--sonoma-text-secondary);
+    background: var(--sonoma-card);
+    padding: 0.6em 1em;
+    border-radius: 0 var(--sonoma-radius-sm) var(--sonoma-radius-sm) 0;
+    font-style: normal;
+}
+
+.tag-cloud a,
+.taxonomy__count {
+    background: var(--sonoma-card);
+    border: 1px solid var(--sonoma-hairline);
+    color: var(--sonoma-text-secondary);
+    border-radius: 999px;
+    padding: 0.15em 0.6em;
+}
+
+/* Social share row on posts */
+.page__share {
+    border-top: 1px solid var(--sonoma-hairline);
+    padding-top: 1em;
+}
+.page__share .btn {
+    margin: 0.25em;
+}
+
+/* Comments / related posts headings */
+.page__related-title,
+.page__share-title,
+.page__comments-title {
+    color: var(--sonoma-text-secondary);
+    border-bottom: 1px solid var(--sonoma-hairline);
+    padding-bottom: 0.3em;
+    text-transform: none;
+    letter-spacing: -0.01em;
+}
+
+/* Image captions */
+figure figcaption,
+.page__content figcaption {
+    color: var(--sonoma-text-tertiary);
+}
+
+/* Images get a subtle radius so they sit well in cards */
+.page__content img,
+.archive__item img,
+.archive__item-teaser img {
+    border-radius: var(--sonoma-radius-sm);
+}
