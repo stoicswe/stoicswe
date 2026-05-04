@@ -146,6 +146,12 @@
         // at +1s and starts streaming dmesg lines hidden under us).
         if (overlay) overlay.classList.add("is-fading-to-black");
         if (window.StoicSweBoot && typeof window.StoicSweBoot.forceBoot === "function") {
+            // Hand the scroll-lock baton cleanly to boot.js. Without this,
+            // boot.js's lockScroll() captures our "hidden" as its "original"
+            // and unlockScroll() at login time leaves the page locked.
+            // Restore-then-let-boot-relock happens in the same JS tick, so
+            // there's no real interactive window for the user to scroll.
+            document.documentElement.style.overflow = savedOverflow || "";
             window.StoicSweBoot.forceBoot("restart");
         }
 
