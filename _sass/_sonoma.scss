@@ -46,6 +46,8 @@
 
     --sonoma-blur: saturate(180%) blur(30px);
     --sonoma-blur-heavy: saturate(180%) blur(50px);
+
+    --search-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23636366' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cline x1='15.5' y1='15.5' x2='20' y2='20'/%3E%3C/svg%3E");
 }
 
 $sonoma-font:
@@ -619,39 +621,50 @@ kbd {
 }
 
 /* =========================================================
-   Search modal — Spotlight-style
+   Search modal — Spotlight pill
    ========================================================= */
 .search-content {
-    background: rgba(0, 0, 0, 0.18);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+    background: rgba(0, 0, 0, 0.22);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
     transition: opacity 200ms ease;
 }
 
 .search-content__inner-wrap {
-    max-width: 680px;
-    padding-top: 8vh;
+    max-width: 720px;
+    padding-top: 10vh;
 }
 
 .search-content input.search-input,
 .search-input {
-    background: var(--sonoma-vibrancy-strong);
+    background-color: var(--sonoma-vibrancy-strong);
+    background-image: var(--search-icon);
+    background-repeat: no-repeat;
+    background-position: 1.35em center;
+    background-size: 1.4em 1.4em;
     -webkit-backdrop-filter: var(--sonoma-blur-heavy);
     backdrop-filter: var(--sonoma-blur-heavy);
     border: 1px solid var(--sonoma-hairline);
-    border-radius: var(--sonoma-radius);
-    padding: 0.9em 1.2em;
-    font-size: 1.4em;
+    border-radius: 9999px;
+    padding: 1em 1.5em 1em 3.7em;
+    font-size: 1.6em;
     font-weight: 400;
+    line-height: 1.2;
     color: var(--sonoma-text);
     box-shadow: var(--sonoma-shadow-2);
     width: 100%;
     margin: 0;
+    transition: box-shadow 150ms ease;
+}
+.search-content input.search-input::placeholder,
+.search-input::placeholder {
+    color: var(--sonoma-text-tertiary);
+    font-weight: 400;
 }
 .search-content input.search-input:focus,
 .search-input:focus {
     outline: none;
-    border-color: var(--sonoma-accent);
+    border-color: var(--sonoma-hairline);
     box-shadow:
         var(--sonoma-shadow-2),
         0 0 0 4px var(--sonoma-accent-tint);
@@ -659,10 +672,14 @@ kbd {
 
 .search-content .results__found {
     color: var(--sonoma-text-secondary);
-    margin-top: 1em;
+    margin-top: 1.25em;
+    text-align: center;
+    font-size: 0.9em;
 }
 .search-content .archive__item {
     background: var(--sonoma-card);
+    -webkit-backdrop-filter: var(--sonoma-blur);
+    backdrop-filter: var(--sonoma-blur);
 }
 
 /* =========================================================
