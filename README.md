@@ -1,3 +1,5 @@
+[![pages-build-deployment](https://github.com/stoicswe/stoicswe/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/stoicswe/stoicswe/actions/workflows/pages/pages-build-deployment)
+
 # Nathaniel Knudsen
 | _senior software engineer. stoic. transhumanist._
 
