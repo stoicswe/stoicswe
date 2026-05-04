@@ -1,11 +1,11 @@
 ---
-# Only the main Sass file needs front matter (the dashes are enough)
+# Dark-mode override stylesheet — loaded with media="(prefers-color-scheme: dark)"
 search: false
 ---
 
 @charset "utf-8";
 
-/* system typefaces */
+/* system typefaces (must match main.scss so compiled selectors line up) */
 $serif: "Ubuntu", Georgia, Times, serif;
 $sans-serif:
     "Ubuntu",
@@ -32,5 +32,5 @@ $monospace: Monaco, Consolas, "Lucida Console", monospace;
 $global-font-family: $serif;
 $header-font-family: $sans-serif-narrow;
 
-@import "minimal-mistakes/skins/default"; // light skin (baseline)
+@import "minimal-mistakes/skins/dark"; // dark skin
 @import "minimal-mistakes"; // main partials
