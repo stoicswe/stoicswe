@@ -927,27 +927,41 @@ figure figcaption,
 }
 
 /* =========================================================
-   Bluesky embed: undo our card chrome and element overrides
-   so <bsky-embed> renders with its own native styles.
+   Bluesky embed: keep the page__content card chrome (window
+   look matches the rest of the site), but undo our element
+   overrides so <bsky-embed> renders with its own styles.
    ========================================================= */
-body.layout--bsky-feed .page__content {
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    border-radius: 0;
-    padding: 1em 0 0;
-}
-body.layout--bsky-feed .page__content::before,
-body.layout--bsky-feed .page__content::after {
-    display: none;
-}
-
 .bsky-feed,
 bsky-embed {
     display: block;
     color: var(--sonoma-text);
+    font-size: 0.85em;
+}
+
+/* Each individual post: floating frosted card inside the page window */
+bsky-embed > div > div,
+bsky-embed > div > article {
+    background: var(--sonoma-card) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--sonoma-hairline) !important;
+    border-radius: var(--sonoma-radius) !important;
+    padding: 1em 1.2em !important;
+    margin: 0 0 0.85em 0 !important;
+    box-shadow: var(--sonoma-shadow-1);
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+bsky-embed > div > div:hover,
+bsky-embed > div > article:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--sonoma-shadow-2);
+}
+/* Last post — drop trailing margin */
+bsky-embed > div > div:last-child,
+bsky-embed > div > article:last-child {
+    margin-bottom: 0 !important;
 }
 
 bsky-embed a,
