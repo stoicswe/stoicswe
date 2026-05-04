@@ -137,19 +137,43 @@
     var trigger, menu, modal;
     var menuOpen = false;
 
+    function injectCriticalCSS() {
+        // Inline critical styles so the button & menu work even if the
+        // external stylesheet is stale-cached without the new rules.
+        var s = document.createElement("style");
+        s.id = "apple-menu-critical";
+        s.textContent =
+            ".masthead::before{display:none!important}" +
+            ".apple-menu-trigger{position:absolute;top:50%;left:12px;" +
+            "transform:translateY(-50%);width:34px;height:34px;padding:0;" +
+            "border:0;border-radius:8px;background:transparent;cursor:pointer;" +
+            "z-index:2;display:inline-flex;align-items:center;justify-content:center;}" +
+            ".apple-menu-trigger:hover{background:rgba(127,127,127,0.18)}" +
+            ".apple-menu-trigger>img{width:22px;height:22px;pointer-events:none;" +
+            "filter:drop-shadow(0 1px 1px rgba(0,0,0,0.18))}" +
+            "@media(max-width:768px){.apple-menu-trigger{display:none}}";
+        document.head.appendChild(s);
+    }
+
     function buildTrigger(masthead) {
-        trigger = el("button", {
-            class: "apple-menu-trigger",
-            "aria-label": "System menu",
-            "aria-haspopup": "menu",
-            "aria-expanded": "false",
-            type: "button",
-        });
-        trigger.style.backgroundImage = "url(" + DAEMON + ")";
+        trigger = document.createElement("button");
+        trigger.type = "button";
+        trigger.className = "apple-menu-trigger";
+        trigger.setAttribute("aria-label", "System menu");
+        trigger.setAttribute("aria-haspopup", "menu");
+        trigger.setAttribute("aria-expanded", "false");
+
+        var img = document.createElement("img");
+        img.src = DAEMON;
+        img.alt = "";
+        img.setAttribute("aria-hidden", "true");
+        trigger.appendChild(img);
+
         trigger.addEventListener("click", function (e) {
             e.stopPropagation();
             menuOpen ? closeMenu() : openMenu();
         });
+
         masthead.appendChild(trigger);
         masthead.classList.add("has-apple-menu");
     }
@@ -301,6 +325,7 @@
     ready(function () {
         var masthead = document.querySelector(".masthead");
         if (!masthead) return;
+        injectCriticalCSS();
         buildTrigger(masthead);
         buildMenu();
 
