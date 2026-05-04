@@ -85,6 +85,8 @@
             "@media(prefers-color-scheme:dark){.finder-item:hover{background:rgba(10,132,255,0.14)}}",
             ".finder-item__icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}",
             ".finder-item__icon svg{width:48px;height:48px;display:block}",
+            ".finder-item__icon--photo{width:54px;height:54px;border-radius:5px;overflow:hidden;background:rgba(0,0,0,0.1);box-shadow:0 1px 3px rgba(0,0,0,0.18),inset 0 0 0 0.5px rgba(0,0,0,0.12)}",
+            ".finder-item__icon--photo img{width:100%;height:100%;object-fit:cover;display:block}",
             ".finder-item__name{font-size:11.5px;text-align:center;line-height:1.25;word-break:break-word;max-width:100%}",
             /* File viewer modal */
             ".finder-viewer{position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:2em;opacity:0;pointer-events:none;transition:opacity 160ms ease}",
@@ -359,7 +361,21 @@
                         type: "dir",
                         children: {
                             Documents: { type: "dir", children: {} },
-                            Photos: { type: "dir", children: {} },
+                            Photos: {
+                                type: "dir",
+                                children: {
+                                    "IDG_20250629_081407_862.jpg": { type: "image", url: "/assets/images/salem/IDG_20250629_081407_862.jpg" },
+                                    "IMG_0193.jpeg": { type: "image", url: "/assets/images/salem/IMG_0193.jpeg" },
+                                    "IMG_0266.jpeg": { type: "image", url: "/assets/images/salem/IMG_0266.jpeg" },
+                                    "IMG_1585.jpeg": { type: "image", url: "/assets/images/salem/IMG_1585.jpeg" },
+                                    "IMG_1689.jpeg": { type: "image", url: "/assets/images/salem/IMG_1689.jpeg" },
+                                    "IMG_2050.jpeg": { type: "image", url: "/assets/images/salem/IMG_2050.jpeg" },
+                                    "IMG_2386.jpeg": { type: "image", url: "/assets/images/salem/IMG_2386.jpeg" },
+                                    "IMG_2492.jpeg": { type: "image", url: "/assets/images/salem/IMG_2492.jpeg" },
+                                    "IMG_2516.jpeg": { type: "image", url: "/assets/images/salem/IMG_2516.jpeg" },
+                                    "IMG_2667.jpeg": { type: "image", url: "/assets/images/salem/IMG_2667.jpeg" },
+                                },
+                            },
                             Music: { type: "dir", children: {} },
                             Videos: {
                                 type: "dir",
@@ -560,9 +576,18 @@
                         dblclick: function () { activate(child, name); },
                     },
                 });
-                btn.innerHTML =
-                    '<span class="finder-item__icon">' + ICONS_FS[iconKey] + "</span>" +
-                    '<span class="finder-item__name"></span>';
+                // Real photo thumbnail when we have a usable URL
+                var iconHtml;
+                if (child.type === "image" && child.url) {
+                    iconHtml =
+                        '<span class="finder-item__icon finder-item__icon--photo">' +
+                        '<img loading="lazy" decoding="async" alt="" src="' +
+                        child.url +
+                        '"></span>';
+                } else {
+                    iconHtml = '<span class="finder-item__icon">' + ICONS_FS[iconKey] + "</span>";
+                }
+                btn.innerHTML = iconHtml + '<span class="finder-item__name"></span>';
                 btn.querySelector(".finder-item__name").textContent = name;
                 grid.appendChild(btn);
             });
