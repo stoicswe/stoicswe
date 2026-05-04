@@ -184,21 +184,23 @@ a:hover {
     box-shadow: 0 1px 0 var(--sonoma-inner-highlight) inset;
 }
 
+/* FreeBSD daemon mark, sits in the masthead like a system menu icon */
 .masthead::before {
     content: "";
     position: absolute;
     top: 50%;
     left: 18px;
     transform: translateY(-50%);
-    width: 52px;
-    height: 12px;
-    background:
-        radial-gradient(circle at 6px 6px, #ff5f57 5.5px, transparent 6px),
-        radial-gradient(circle at 26px 6px, #febc2e 5.5px, transparent 6px),
-        radial-gradient(circle at 46px 6px, #28c840 5.5px, transparent 6px);
+    width: 26px;
+    height: 26px;
+    background-image: url("/assets/images/freebsd.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.92;
+    opacity: 0.95;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
 }
 
 @media (max-width: 768px) {
@@ -209,7 +211,7 @@ a:hover {
 
 .greedy-nav {
     background: transparent;
-    padding-left: 84px;
+    padding-left: 56px;
 
     @media (max-width: 768px) {
         padding-left: 1em;
@@ -355,18 +357,50 @@ a:hover {
 
 .page__content,
 .archive__item {
+    position: relative;
     background: var(--sonoma-card-strong);
     -webkit-backdrop-filter: blur(20px) saturate(160%);
     backdrop-filter: blur(20px) saturate(160%);
     border: 1px solid var(--sonoma-hairline);
     border-radius: var(--sonoma-radius-lg);
-    padding: 1.5em 1.75em;
+    padding: 2.6em 1.75em 1.5em;
     box-shadow: var(--sonoma-shadow-1);
     margin-bottom: 1.5em;
 }
 
+/* Traffic-light dots: each card is its own little window */
+.page__content::before,
+.archive__item::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 52px;
+    height: 12px;
+    background:
+        radial-gradient(circle at 6px 6px, #ff5f57 5.5px, transparent 6px),
+        radial-gradient(circle at 26px 6px, #febc2e 5.5px, transparent 6px),
+        radial-gradient(circle at 46px 6px, #28c840 5.5px, transparent 6px);
+    pointer-events: none;
+    opacity: 0.9;
+    z-index: 1;
+}
+
+/* Hairline divider under the title-bar zone */
+.page__content::after,
+.archive__item::after {
+    content: "";
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--sonoma-hairline);
+    pointer-events: none;
+}
+
 .archive__item {
-    padding: 1.25em 1.5em;
+    padding: 2.4em 1.5em 1.25em;
     transition:
         transform 200ms ease,
         box-shadow 200ms ease;
