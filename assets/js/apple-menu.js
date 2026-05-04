@@ -44,8 +44,8 @@
         { label: "Force Quit…", icon: "x-circle", shortcut: "⌥⇧⌘⎋", disabled: true },
         { separator: true },
         { label: "Sleep", icon: "moon", disabled: true },
-        { label: "Restart…", icon: "restart", disabled: true },
-        { label: "Shut Down…", icon: "power", disabled: true },
+        { label: "Restart…", icon: "restart", action: "restart" },
+        { label: "Shut Down…", icon: "power", action: "shutdown" },
         { separator: true },
         { label: "Lock Screen", icon: "lock", shortcut: "⌃⌘Q", disabled: true },
         { label: "Log Out…", icon: "logout", shortcut: "⇧⌘Q", disabled: true },
@@ -209,6 +209,9 @@
                 if (item.action === "about") {
                     closeMenu();
                     openAbout();
+                } else if (item.action === "restart" || item.action === "shutdown") {
+                    closeMenu();
+                    if (window.StoicSweBoot) window.StoicSweBoot.show(item.action);
                 }
             });
             menu.appendChild(btn);
