@@ -39,7 +39,17 @@
         { label: "System Settings…", icon: "gear", action: "settings" },
         { label: "App Store…", icon: "apple", disabled: true },
         { separator: true },
-        { label: "Recent Items", icon: "clock", arrow: true, disabled: true },
+        {
+            label: "Recent Items",
+            icon: "clock",
+            arrow: true,
+            submenu: [
+                { label: "Terminal.app", icon: "app-terminal" },
+                { label: "Finder.app", icon: "app-finder" },
+                { label: "Calculator.app", icon: "app-calculator" },
+                { label: "TextEdit.app", icon: "app-textedit" },
+            ],
+        },
         { separator: true },
         { label: "Force Quit…", icon: "x-circle", shortcut: "⌥⇧⌘⎋", disabled: true },
         { separator: true },
@@ -66,6 +76,15 @@
         power: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9"/><path d="M5.5 7.5a8 8 0 1 0 13 0"/></svg>',
         lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
         logout: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>',
+        /* App icons — keep their own colors regardless of menu hover state. */
+        "app-terminal":
+            '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="4.5" fill="#222"/><path d="M6 9.5l2.6 2.5L6 14.5" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.5 15.5h6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>',
+        "app-finder":
+            '<svg viewBox="0 0 24 24"><defs><clipPath id="apl-finder-clip"><rect x="2" y="3" width="20" height="18" rx="4.5"/></clipPath></defs><g clip-path="url(#apl-finder-clip)"><rect x="2" y="3" width="10" height="18" fill="#7d899c"/><rect x="12" y="3" width="10" height="18" fill="#3a83d4"/></g><circle cx="9" cy="10" r="1.2" fill="#1d1d1f"/><circle cx="15" cy="10" r="1.2" fill="#fff"/><path d="M8.5 14.5c1 1.4 5 1.4 6 0" stroke="#1d1d1f" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>',
+        "app-calculator":
+            '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="4.5" fill="#2b2b2b"/><rect x="4.6" y="5.2" width="14.8" height="3.4" rx="0.8" fill="#1a1a1a"/><circle cx="6.6" cy="12" r="1.15" fill="#5d5d5d"/><circle cx="10" cy="12" r="1.15" fill="#5d5d5d"/><circle cx="13.4" cy="12" r="1.15" fill="#5d5d5d"/><circle cx="17.5" cy="12" r="1.15" fill="#ff9500"/><circle cx="6.6" cy="15" r="1.15" fill="#5d5d5d"/><circle cx="10" cy="15" r="1.15" fill="#5d5d5d"/><circle cx="13.4" cy="15" r="1.15" fill="#5d5d5d"/><circle cx="17.5" cy="15" r="1.15" fill="#ff9500"/><circle cx="6.6" cy="18" r="1.15" fill="#5d5d5d"/><circle cx="10" cy="18" r="1.15" fill="#5d5d5d"/><circle cx="13.4" cy="18" r="1.15" fill="#5d5d5d"/><circle cx="17.5" cy="18" r="1.15" fill="#ff9500"/></svg>',
+        "app-textedit":
+            '<svg viewBox="0 0 24 24"><rect x="4" y="2.5" width="14" height="19" rx="2" fill="#fff" stroke="#bbb" stroke-width="0.6"/><path d="M7 7h8M7 10h8M7 13h8M7 16h6" stroke="#a0a0a0" stroke-width="0.9" stroke-linecap="round"/><path d="M14.5 17l5-5 2 2-5 5-2.5.5z" fill="#f5b800" stroke="#1d1d1f" stroke-width="0.5" stroke-linejoin="round"/></svg>',
     };
 
     function detectInfo() {
@@ -153,7 +172,11 @@
             ".apple-menu-trigger:active{transform:translateY(-50%) scale(0.94)}" +
             ".apple-menu-trigger>img{width:24px;height:24px;pointer-events:none;" +
             "display:block;filter:drop-shadow(0 1px 1px rgba(0,0,0,0.18))}" +
-            "@media(max-width:768px){.apple-menu-trigger{display:none}}";
+            "@media(max-width:768px){.apple-menu-trigger{display:none}}" +
+            /* App-icon modifier — keeps colored icons at full opacity even when
+               the menu row is selected (highlight wraps around the icon). */
+            ".apple-menu__icon--app{opacity:1!important}" +
+            ".apple-menu__icon--app svg{border-radius:4px;display:block}";
         document.head.appendChild(s);
     }
 
@@ -190,37 +213,136 @@
                 return;
             }
             var iconHtml = ICONS[item.icon] || "";
+            var hasSubmenu = !!(item.submenu && item.submenu.length);
             var btn = el("button", {
                 class: "apple-menu__item" + (item.disabled ? " is-disabled" : ""),
                 role: "menuitem",
                 type: "button",
                 "aria-disabled": item.disabled ? "true" : "false",
+                "aria-haspopup": hasSubmenu ? "menu" : "false",
             });
             btn.innerHTML =
                 '<span class="apple-menu__icon">' + iconHtml + "</span>" +
                 '<span class="apple-menu__label"></span>' +
                 (item.shortcut ? '<span class="apple-menu__shortcut"></span>' : "") +
-                (item.arrow ? '<span class="apple-menu__arrow">›</span>' : "");
+                (item.arrow || hasSubmenu ? '<span class="apple-menu__arrow">›</span>' : "");
             btn.querySelector(".apple-menu__label").textContent = item.label;
             if (item.shortcut) btn.querySelector(".apple-menu__shortcut").textContent = item.shortcut;
-            btn.addEventListener("click", function (e) {
-                e.stopPropagation();
-                if (item.disabled) return;
-                if (item.action === "about") {
-                    closeMenu();
-                    openAbout();
-                } else if (item.action === "settings") {
-                    closeMenu();
-                    if (window.StoicSweSettings) window.StoicSweSettings.open();
-                } else if (item.action === "restart" || item.action === "shutdown") {
-                    closeMenu();
-                    if (window.StoicSweBoot) window.StoicSweBoot.show(item.action);
-                }
-            });
+
+            if (hasSubmenu) {
+                btn.addEventListener("mouseenter", function () {
+                    showSubmenu(btn, item.submenu);
+                });
+                btn.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    showSubmenu(btn, item.submenu);
+                });
+            } else {
+                btn.addEventListener("mouseenter", function () {
+                    if (submenuCloseTimer) {
+                        clearTimeout(submenuCloseTimer);
+                        submenuCloseTimer = null;
+                    }
+                    submenuCloseTimer = setTimeout(hideSubmenu, 150);
+                });
+                btn.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    if (item.disabled) return;
+                    if (item.action === "about") {
+                        closeMenu();
+                        openAbout();
+                    } else if (item.action === "settings") {
+                        closeMenu();
+                        if (window.StoicSweSettings) window.StoicSweSettings.open();
+                    } else if (item.action === "restart" || item.action === "shutdown") {
+                        closeMenu();
+                        if (window.StoicSweBoot) window.StoicSweBoot.show(item.action);
+                    }
+                });
+            }
             menu.appendChild(btn);
         });
 
         document.body.appendChild(menu);
+    }
+
+    /* ---------- Submenu ---------- */
+    var submenuEl = null;
+    var submenuParent = null;
+    var submenuCloseTimer = null;
+
+    function showSubmenu(parentBtn, items) {
+        if (submenuCloseTimer) {
+            clearTimeout(submenuCloseTimer);
+            submenuCloseTimer = null;
+        }
+        if (submenuParent === parentBtn && submenuEl) return;
+        hideSubmenu();
+
+        submenuEl = el("div", {
+            class: "apple-menu apple-submenu",
+            role: "menu",
+            "aria-label": "Recent items",
+        });
+        submenuParent = parentBtn;
+
+        items.forEach(function (sub) {
+            var iconHtml = ICONS[sub.icon] || "";
+            var subBtn = el("button", {
+                class: "apple-menu__item",
+                role: "menuitem",
+                type: "button",
+            });
+            subBtn.innerHTML =
+                '<span class="apple-menu__icon apple-menu__icon--app">' +
+                iconHtml +
+                "</span>" +
+                '<span class="apple-menu__label"></span>';
+            subBtn.querySelector(".apple-menu__label").textContent = sub.label;
+            subBtn.addEventListener("click", function (e) {
+                e.stopPropagation();
+                /* No-op for now — recent items are decorative. */
+            });
+            submenuEl.appendChild(subBtn);
+        });
+
+        document.body.appendChild(submenuEl);
+
+        // Position to the right of the parent item
+        var prect = parentBtn.getBoundingClientRect();
+        submenuEl.style.top = prect.top - 6 + "px";
+        // If the submenu would go off-screen on the right, flip to the left
+        var preferredLeft = prect.right - 2;
+        var subWidth = submenuEl.offsetWidth || 220;
+        if (preferredLeft + subWidth > window.innerWidth - 8) {
+            preferredLeft = Math.max(8, prect.left - subWidth + 2);
+        }
+        submenuEl.style.left = preferredLeft + "px";
+
+        requestAnimationFrame(function () {
+            if (submenuEl) submenuEl.classList.add("is-open");
+        });
+
+        submenuEl.addEventListener("mouseenter", function () {
+            if (submenuCloseTimer) {
+                clearTimeout(submenuCloseTimer);
+                submenuCloseTimer = null;
+            }
+        });
+        submenuEl.addEventListener("mouseleave", function () {
+            if (submenuCloseTimer) clearTimeout(submenuCloseTimer);
+            submenuCloseTimer = setTimeout(hideSubmenu, 200);
+        });
+    }
+
+    function hideSubmenu() {
+        if (submenuCloseTimer) {
+            clearTimeout(submenuCloseTimer);
+            submenuCloseTimer = null;
+        }
+        if (submenuEl && submenuEl.parentNode) submenuEl.parentNode.removeChild(submenuEl);
+        submenuEl = null;
+        submenuParent = null;
     }
 
     function openMenu() {
@@ -239,6 +361,7 @@
 
     function closeMenu() {
         if (!menu) return;
+        hideSubmenu();
         menu.classList.remove("is-open");
         trigger.setAttribute("aria-expanded", "false");
         menuOpen = false;
@@ -338,7 +461,13 @@
         buildMenu();
 
         document.addEventListener("click", function (e) {
-            if (menuOpen && !menu.contains(e.target) && e.target !== trigger) closeMenu();
+            if (
+                menuOpen &&
+                !menu.contains(e.target) &&
+                !(submenuEl && submenuEl.contains(e.target)) &&
+                e.target !== trigger
+            )
+                closeMenu();
         });
         document.addEventListener("keydown", function (e) {
             if (e.key === "Escape") {

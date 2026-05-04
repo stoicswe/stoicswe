@@ -348,6 +348,15 @@ a:hover {
     width: 100%;
     height: 100%;
 }
+/* App-icon modifier — colored Recent-Items icons keep their own colors
+   (no currentColor tinting, no dimming) regardless of row hover state. */
+.apple-menu__icon--app {
+    opacity: 1;
+}
+.apple-menu__icon--app svg {
+    border-radius: 4px;
+    display: block;
+}
 .apple-menu__label {
     flex: 1;
 }
