@@ -213,27 +213,38 @@ a:hover {
     }
 }
 
-/* The real, clickable Apple-menu trigger that JS injects. */
+/* The real, clickable Apple-menu trigger that JS injects. The hit area
+   is intentionally larger than the visible icon to make the whole logo
+   easy to click; high z-index keeps it above flex siblings in the nav. */
 .apple-menu-trigger {
     position: absolute;
     top: 50%;
-    left: 12px;
+    left: 6px;
     transform: translateY(-50%);
-    width: 34px;
-    height: 34px;
+    width: 48px;
+    height: 44px;
     padding: 0;
     border: 0;
-    border-radius: 8px;
+    border-radius: 10px;
     background-color: transparent;
-    background-repeat: no-repeat;
-    background-size: 22px 22px;
-    background-position: center;
     cursor: pointer;
-    z-index: 2;
-    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    appearance: none;
+    -webkit-appearance: none;
     transition:
         background-color 120ms ease,
         transform 120ms ease;
+}
+.apple-menu-trigger > img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    pointer-events: none;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.18));
 }
 .apple-menu-trigger:hover {
     background-color: var(--sonoma-accent-tint);
@@ -504,7 +515,7 @@ a:hover {
 
 .greedy-nav {
     background: transparent;
-    padding-left: 56px;
+    padding-left: 62px;
 
     @media (max-width: 768px) {
         padding-left: 1em;

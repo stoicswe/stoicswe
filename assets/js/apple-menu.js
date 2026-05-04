@@ -144,13 +144,15 @@
         s.id = "apple-menu-critical";
         s.textContent =
             ".masthead::before{display:none!important}" +
-            ".apple-menu-trigger{position:absolute;top:50%;left:12px;" +
-            "transform:translateY(-50%);width:34px;height:34px;padding:0;" +
-            "border:0;border-radius:8px;background:transparent;cursor:pointer;" +
-            "z-index:2;display:inline-flex;align-items:center;justify-content:center;}" +
+            ".apple-menu-trigger{position:absolute!important;top:50%;left:6px;" +
+            "transform:translateY(-50%);width:48px;height:44px;padding:0;" +
+            "border:0;border-radius:10px;background:transparent;cursor:pointer;" +
+            "z-index:1000;display:inline-flex;align-items:center;justify-content:center;" +
+            "pointer-events:auto;-webkit-appearance:none;appearance:none;}" +
             ".apple-menu-trigger:hover{background:rgba(127,127,127,0.18)}" +
-            ".apple-menu-trigger>img{width:22px;height:22px;pointer-events:none;" +
-            "filter:drop-shadow(0 1px 1px rgba(0,0,0,0.18))}" +
+            ".apple-menu-trigger:active{transform:translateY(-50%) scale(0.94)}" +
+            ".apple-menu-trigger>img{width:24px;height:24px;pointer-events:none;" +
+            "display:block;filter:drop-shadow(0 1px 1px rgba(0,0,0,0.18))}" +
             "@media(max-width:768px){.apple-menu-trigger{display:none}}";
         document.head.appendChild(s);
     }
