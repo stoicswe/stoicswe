@@ -116,7 +116,7 @@
             "@media(prefers-color-scheme:dark){.te-app{background:#1d1d1f;color:#f5f5f7}}",
             ".te-app textarea{flex:1;min-height:0;background:transparent;border:0;color:inherit;font:inherit;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,sans-serif;font-size:14px;line-height:1.5;padding:1.4em 2em;outline:none;resize:none}",
             /* Music */
-            ".music-app{flex:1;min-height:0;display:flex;background:#1c1c1f;color:#f5f5f7;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter','Segoe UI',sans-serif}",
+            ".music-app{flex:1;min-height:0;display:flex;background:#1c1c1f;color:#f5f5f7;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter','Segoe UI',sans-serif;position:relative}",
             ".music-side{width:210px;flex:0 0 210px;background:linear-gradient(180deg,rgba(252,92,125,0.12),rgba(28,28,32,0) 280px),#161618;border-right:1px solid rgba(255,255,255,0.06);overflow-y:auto;padding:14px 10px}",
             ".music-side__brand{display:flex;align-items:center;gap:8px;padding:2px 6px 14px;font-size:14px;font-weight:600;letter-spacing:-0.01em;color:#fc5c7d}",
             ".music-side__brand svg{width:20px;height:20px;display:block}",
@@ -153,6 +153,23 @@
             ".music-hero__btn svg{width:13px;height:13px}",
             ".music-stage{flex:1;min-height:0;display:flex;flex-direction:column;background:#000}",
             ".music-stage iframe{flex:1;min-height:0;width:100%;border:0;display:block}",
+            /* Mini player */
+            ".music-mini{display:none;position:absolute;inset:0;align-items:center;gap:10px;padding:8px 10px;background:rgba(22,22,24,0.92);-webkit-backdrop-filter:saturate(180%) blur(28px);backdrop-filter:saturate(180%) blur(28px);color:#f5f5f7;cursor:pointer}",
+            ".music-mini__art{width:48px;height:48px;flex:0 0 48px;border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.5),inset 0 0 0 0.5px rgba(255,255,255,0.12)}",
+            ".music-mini__art svg,.music-mini__art img{display:block;width:100%;height:100%;object-fit:cover}",
+            ".music-mini__meta{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.2}",
+            ".music-mini__title{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+            ".music-mini__sub{font-size:11.5px;opacity:0.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+            ".music-mini__btn{flex:0 0 auto;width:28px;height:28px;border:0;border-radius:6px;background:rgba(255,255,255,0.08);color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}",
+            ".music-mini__btn:hover{background:rgba(255,255,255,0.15)}",
+            ".music-mini__btn svg{width:14px;height:14px;display:block}",
+            /* Mini-state on the surrounding window: pin to bottom-right, hide chrome,
+               keep the iframe rendered so audio keeps playing. */
+            ".app-window.is-mini{width:340px!important;height:64px!important;top:auto!important;left:auto!important;bottom:18px!important;right:18px!important;border-radius:14px;transform:none!important}",
+            ".app-window.is-mini .app-window__titlebar{display:none}",
+            ".app-window.is-mini > .app-window__body{display:block;position:relative;height:100%}",
+            ".app-window.is-mini .music-side,.app-window.is-mini .music-toolbar,.app-window.is-mini .music-hero{visibility:hidden;pointer-events:none}",
+            ".app-window.is-mini .music-mini{display:flex}",
             /* Trash */
             ".trash-app{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2em;color:rgba(60,60,67,0.65)}",
             "@media(prefers-color-scheme:dark){.trash-app{color:rgba(235,235,245,0.55)}}",
@@ -189,6 +206,19 @@
         var body = el("div", { class: "app-window__body" });
         if (opts.body) body.appendChild(opts.body);
 
+        var minLight = opts.onMinimize
+            ? el("button", {
+                  class: "app-window__light app-window__light--min",
+                  type: "button",
+                  "aria-label": "Minimize",
+                  on: {
+                      click: function (e) {
+                          e.stopPropagation();
+                          opts.onMinimize();
+                      },
+                  },
+              })
+            : el("span", { class: "app-window__light app-window__light--min", "aria-hidden": "true" });
         var lights = el("div", { class: "app-window__lights" }, [
             el("button", {
                 class: "app-window__light app-window__light--close",
@@ -196,7 +226,7 @@
                 "aria-label": "Close",
                 on: { click: function () { destroyWindow(win); } },
             }),
-            el("span", { class: "app-window__light app-window__light--min", "aria-hidden": "true" }),
+            minLight,
             el("span", { class: "app-window__light app-window__light--max", "aria-hidden": "true" }),
         ]);
         var titletext = el("span", { class: "app-window__title", text: opts.title || "" });
@@ -899,7 +929,7 @@
             year: "2025",
             heroBg: "linear-gradient(160deg,#5a2f12 0%,#1a0a04 70%)",
             embed:
-                "https://www.youtube-nocookie.com/embed/videoseries?si=S_ef2ZsNJtrwIjQ4&list=OLAK5uy_l_AB0hNbkYRvgxt0i7wRwIyzEQ25KftGM",
+                "https://www.youtube-nocookie.com/embed/videoseries?si=S_ef2ZsNJtrwIjQ4&list=OLAK5uy_l_AB0hNbkYRvgxt0i7wRwIyzEQ25KftGM&enablejsapi=1",
         },
         {
             id: "take-me-back-to-eden",
@@ -908,11 +938,22 @@
             year: "2023",
             heroBg: "linear-gradient(160deg,#bdb89f 0%,#2a2820 80%)",
             embed:
-                "https://www.youtube-nocookie.com/embed/videoseries?si=OmT1gfPJj7V15l9S&list=OLAK5uy_kR2XaVymdtE2e0WXdnqYIViBNemh6_wT4",
+                "https://www.youtube-nocookie.com/embed/videoseries?si=OmT1gfPJj7V15l9S&list=OLAK5uy_kR2XaVymdtE2e0WXdnqYIViBNemh6_wT4&enablejsapi=1",
         },
     ];
 
+    var musicWindow = null;
+
     function openMusic() {
+        // Singleton: if the music window already exists, just bring it back
+        // (un-minimize, bring to front). This is what lets the audio keep
+        // playing across SPA page transitions — the iframe is reused.
+        if (musicWindow && musicWindow.win && musicWindow.win.parentNode) {
+            musicWindow.win.classList.remove("is-mini");
+            bringToFront(musicWindow.win);
+            return;
+        }
+
         var SIDE_ICONS = {
             recent:
                 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
@@ -1015,15 +1056,39 @@
 
         var stage = el("div", { class: "music-stage" }, [iframe]);
         var main = el("div", { class: "music-main" }, [toolbar, hero, stage]);
-        var app = el("div", { class: "music-app" }, [sidebar, main]);
+
+        // Mini-player chrome — sits as a sibling of the main app, layered over
+        // it via CSS when `.app-window.is-mini` is set. Whole bar is clickable
+        // to expand; the up-arrow button is just a visual affordance.
+        var miniArt = el("div", { class: "music-mini__art" });
+        var miniTitle = el("div", { class: "music-mini__title", text: "" });
+        var miniSub = el("div", { class: "music-mini__sub", text: "" });
+        var miniExpandBtn = el("button", {
+            class: "music-mini__btn",
+            type: "button",
+            "aria-label": "Expand player",
+        });
+        miniExpandBtn.innerHTML =
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-8 8"/><path d="M10 20H4v-6"/><path d="M4 20l8-8"/></svg>';
+        var miniMeta = el("div", { class: "music-mini__meta" }, [miniTitle, miniSub]);
+        var miniBar = el(
+            "div",
+            { class: "music-mini", on: { click: restore } },
+            [miniArt, miniMeta, miniExpandBtn]
+        );
+
+        var app = el("div", { class: "music-app" }, [sidebar, main, miniBar]);
 
         function selectAlbum(id) {
             var album = null;
             for (var i = 0; i < ALBUMS.length; i++) if (ALBUMS[i].id === id) { album = ALBUMS[i]; break; }
             if (!album) return;
             heroArt.innerHTML = ALBUM_ART[album.id];
+            miniArt.innerHTML = ALBUM_ART[album.id];
             heroTitle.textContent = album.title;
             heroSub.textContent = album.artist + " · " + album.year + " · Album";
+            miniTitle.textContent = album.title;
+            miniSub.textContent = album.artist;
             toolbarTitle.textContent = album.title;
             hero.style.setProperty("--music-hero-bg", album.heroBg);
             iframe.src = album.embed;
@@ -1033,11 +1098,28 @@
         }
 
         playBtn.addEventListener("click", function () {
-            // Refocus the player area to encourage user gesture for autoplay.
             iframe.focus();
         });
 
-        createWindow({ title: "Music", width: 940, height: 600, body: app });
+        function minimize() {
+            if (!musicWindow) return;
+            musicWindow.win.classList.add("is-mini");
+        }
+        function restore() {
+            if (!musicWindow) return;
+            musicWindow.win.classList.remove("is-mini");
+            bringToFront(musicWindow.win);
+        }
+
+        musicWindow = createWindow({
+            title: "Music",
+            width: 940,
+            height: 600,
+            body: app,
+            onMinimize: minimize,
+        });
+        // Tag the window so the SPA shim never strips it on navigation.
+        musicWindow.win.setAttribute("data-keep", "music");
         selectAlbum(ALBUMS[0].id);
     }
 
