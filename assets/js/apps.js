@@ -160,9 +160,6 @@
             ".music-mini__meta{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.2}",
             ".music-mini__title{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
             ".music-mini__sub{font-size:11.5px;opacity:0.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
-            ".music-mini__btn{flex:0 0 auto;width:28px;height:28px;border:0;border-radius:6px;background:rgba(255,255,255,0.08);color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}",
-            ".music-mini__btn:hover{background:rgba(255,255,255,0.15)}",
-            ".music-mini__btn svg{width:14px;height:14px;display:block}",
             /* Mini-state on the surrounding window: pin to bottom-right, hide chrome,
                keep the iframe rendered so audio keeps playing. */
             ".app-window.is-mini{width:340px!important;height:64px!important;top:auto!important;left:auto!important;bottom:18px!important;right:18px!important;border-radius:14px;transform:none!important}",
@@ -1056,24 +1053,20 @@
         var stage = el("div", { class: "music-stage" }, [iframe]);
         var main = el("div", { class: "music-main" }, [toolbar, hero, stage]);
 
-        // Mini-player chrome — sits as a sibling of the main app, layered over
-        // it via CSS when `.app-window.is-mini` is set. Whole bar is clickable
-        // to expand; the up-arrow button is just a visual affordance.
+        // Mini-player chrome — album art + "now playing" title/artist. Whole
+        // bar is clickable to restore the full window.
         var miniArt = el("div", { class: "music-mini__art" });
         var miniTitle = el("div", { class: "music-mini__title", text: "" });
         var miniSub = el("div", { class: "music-mini__sub", text: "" });
-        var miniExpandBtn = el("button", {
-            class: "music-mini__btn",
-            type: "button",
-            "aria-label": "Expand player",
-        });
-        miniExpandBtn.innerHTML =
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-8 8"/><path d="M10 20H4v-6"/><path d="M4 20l8-8"/></svg>';
         var miniMeta = el("div", { class: "music-mini__meta" }, [miniTitle, miniSub]);
         var miniBar = el(
             "div",
-            { class: "music-mini", on: { click: restore } },
-            [miniArt, miniMeta, miniExpandBtn]
+            {
+                class: "music-mini",
+                title: "Open Music",
+                on: { click: restore },
+            },
+            [miniArt, miniMeta]
         );
 
         var app = el("div", { class: "music-app" }, [sidebar, main, miniBar]);
