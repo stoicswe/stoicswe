@@ -117,7 +117,7 @@
             ".te-app textarea{flex:1;min-height:0;background:transparent;border:0;color:inherit;font:inherit;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,sans-serif;font-size:14px;line-height:1.5;padding:1.4em 2em;outline:none;resize:none}",
             /* Music */
             ".music-app{flex:1;min-height:0;display:flex;background:#1c1c1f;color:#f5f5f7;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter','Segoe UI',sans-serif}",
-            ".music-side{width:194px;flex:0 0 194px;background:linear-gradient(180deg,rgba(252,92,125,0.12),rgba(28,28,32,0) 280px),#161618;border-right:1px solid rgba(255,255,255,0.06);overflow-y:auto;padding:14px 10px}",
+            ".music-side{width:210px;flex:0 0 210px;background:linear-gradient(180deg,rgba(252,92,125,0.12),rgba(28,28,32,0) 280px),#161618;border-right:1px solid rgba(255,255,255,0.06);overflow-y:auto;padding:14px 10px}",
             ".music-side__brand{display:flex;align-items:center;gap:8px;padding:2px 6px 14px;font-size:14px;font-weight:600;letter-spacing:-0.01em;color:#fc5c7d}",
             ".music-side__brand svg{width:20px;height:20px;display:block}",
             ".music-side__section{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(235,235,245,0.45);padding:14px 8px 4px}",
@@ -126,12 +126,31 @@
             ".music-side__item.is-active{background:#fc5c7d;color:#fff}",
             ".music-side__icon{display:inline-flex;width:16px;height:16px;flex:0 0 16px;align-items:center;justify-content:center;color:currentColor;opacity:0.85}",
             ".music-side__icon svg{width:100%;height:100%}",
-            ".music-side__art{width:24px;height:24px;flex:0 0 24px;border-radius:4px;background:linear-gradient(135deg,#fc5c7d,#6a82fb);box-shadow:inset 0 0 0 0.5px rgba(255,255,255,0.18)}",
-            ".music-main{flex:1;min-width:0;display:flex;flex-direction:column;background:#0e0e10}",
+            ".music-side__art{width:28px;height:28px;flex:0 0 28px;border-radius:4px;overflow:hidden;box-shadow:inset 0 0 0 0.5px rgba(255,255,255,0.18),0 1px 2px rgba(0,0,0,0.4)}",
+            ".music-side__art svg{display:block;width:100%;height:100%}",
+            ".music-side__sub{display:flex;flex-direction:column;min-width:0;line-height:1.2}",
+            ".music-side__sub strong{font-weight:500;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+            ".music-side__sub span{font-size:11px;opacity:0.65;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+            ".music-side__item.is-active .music-side__sub span{opacity:0.85}",
+            ".music-main{flex:1;min-width:0;display:flex;flex-direction:column;background:#0e0e10;overflow:hidden}",
             ".music-toolbar{display:flex;align-items:center;gap:10px;height:38px;flex:0 0 38px;padding:0 14px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:12.5px;color:rgba(235,235,245,0.7)}",
             ".music-toolbar__nav{display:flex;gap:2px}",
             ".music-toolbar__nav button{width:24px;height:24px;border:0;background:transparent;border-radius:4px;color:inherit;font:inherit;cursor:default;font-size:14px;line-height:1;opacity:0.45}",
             ".music-toolbar__title{font-weight:600;color:#f5f5f7}",
+            ".music-hero{display:flex;align-items:flex-end;gap:18px;padding:22px 22px 16px;flex:0 0 auto;position:relative;overflow:hidden}",
+            ".music-hero::before{content:'';position:absolute;inset:0;background:var(--music-hero-bg,linear-gradient(160deg,#3a2410,#0e0e10));opacity:0.85;z-index:0}",
+            ".music-hero::after{content:'';position:absolute;inset:0;backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);background:rgba(14,14,16,0.45);z-index:0}",
+            ".music-hero > *{position:relative;z-index:1}",
+            ".music-hero__art{width:140px;height:140px;flex:0 0 140px;border-radius:8px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.55),inset 0 0 0 0.5px rgba(255,255,255,0.12)}",
+            ".music-hero__art svg{display:block;width:100%;height:100%}",
+            ".music-hero__meta{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}",
+            ".music-hero__kicker{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(235,235,245,0.7)}",
+            ".music-hero__title{margin:0;font-size:28px;font-weight:700;letter-spacing:-0.02em;line-height:1.05;color:#fff}",
+            ".music-hero__sub{font-size:13px;color:rgba(235,235,245,0.75)}",
+            ".music-hero__row{display:flex;gap:8px;margin-top:10px}",
+            ".music-hero__btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;font-size:13px;font-weight:500;color:#1d1d1f;background:#fff;border:0;border-radius:999px;cursor:pointer}",
+            ".music-hero__btn--ghost{background:rgba(255,255,255,0.16);color:#fff}",
+            ".music-hero__btn svg{width:13px;height:13px}",
             ".music-stage{flex:1;min-height:0;display:flex;flex-direction:column;background:#000}",
             ".music-stage iframe{flex:1;min-height:0;width:100%;border:0;display:block}",
             /* Trash */
@@ -864,10 +883,69 @@
     /* =================================================================
        5. Music — embedded YouTube player
        ================================================================= */
+    /* Stylized album cover artwork. These are not the real album covers —
+       just placeholder art evoking each album's palette. The actual album
+       artwork is shown inside the YouTube playlist embed below. */
+    var ALBUM_ART = {
+        "even-in-arcadia":
+            '<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">' +
+            '<defs>' +
+            '<radialGradient id="art-arc-g" cx="50%" cy="62%" r="65%">' +
+            '<stop offset="0%" stop-color="#ffe7a3"/>' +
+            '<stop offset="40%" stop-color="#d99a3a"/>' +
+            '<stop offset="100%" stop-color="#1c0a04"/>' +
+            "</radialGradient>" +
+            "</defs>" +
+            '<rect width="100" height="100" fill="url(#art-arc-g)"/>' +
+            '<g opacity="0.35" stroke="#fff5d0" stroke-width="0.7" fill="none">' +
+            '<line x1="50" y1="62" x2="14" y2="-4"/>' +
+            '<line x1="50" y1="62" x2="34" y2="-4"/>' +
+            '<line x1="50" y1="62" x2="50" y2="-4"/>' +
+            '<line x1="50" y1="62" x2="66" y2="-4"/>' +
+            '<line x1="50" y1="62" x2="86" y2="-4"/>' +
+            '<line x1="50" y1="62" x2="104" y2="22"/>' +
+            '<line x1="50" y1="62" x2="-4" y2="22"/>' +
+            "</g>" +
+            '<circle cx="50" cy="62" r="6" fill="#fff8d8" opacity="0.85"/>' +
+            "</svg>",
+        "take-me-back-to-eden":
+            '<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">' +
+            '<defs>' +
+            '<radialGradient id="art-eden-g" cx="50%" cy="42%" r="80%">' +
+            '<stop offset="0%" stop-color="#fefdf6"/>' +
+            '<stop offset="55%" stop-color="#dcdac5"/>' +
+            '<stop offset="100%" stop-color="#3c3a2c"/>' +
+            "</radialGradient>" +
+            "</defs>" +
+            '<rect width="100" height="100" fill="url(#art-eden-g)"/>' +
+            '<ellipse cx="50" cy="42" rx="14" ry="18" fill="#ece8d3" stroke="rgba(0,0,0,0.18)" stroke-width="0.5"/>' +
+            '<ellipse cx="50" cy="74" rx="24" ry="11" fill="#ece8d3" stroke="rgba(0,0,0,0.18)" stroke-width="0.5"/>' +
+            '<path d="M44 38c0-2 2-4 6-4s6 2 6 4" fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="0.6"/>' +
+            "</svg>",
+    };
+
+    var ALBUMS = [
+        {
+            id: "even-in-arcadia",
+            title: "Even in Arcadia",
+            artist: "Sleep Token",
+            year: "2025",
+            heroBg: "linear-gradient(160deg,#5a2f12 0%,#1a0a04 70%)",
+            embed:
+                "https://www.youtube-nocookie.com/embed/videoseries?si=S_ef2ZsNJtrwIjQ4&list=OLAK5uy_l_AB0hNbkYRvgxt0i7wRwIyzEQ25KftGM",
+        },
+        {
+            id: "take-me-back-to-eden",
+            title: "Take Me Back to Eden",
+            artist: "Sleep Token",
+            year: "2023",
+            heroBg: "linear-gradient(160deg,#bdb89f 0%,#2a2820 80%)",
+            embed:
+                "https://www.youtube-nocookie.com/embed/videoseries?si=OmT1gfPJj7V15l9S&list=OLAK5uy_kR2XaVymdtE2e0WXdnqYIViBNemh6_wT4",
+        },
+    ];
+
     function openMusic() {
-        /* Decorative left rail — mirrors the Apple Music chrome (Library /
-           Playlists / Albums). Items are non-functional; clicks just toggle
-           the active highlight so the UI feels live. */
         var SIDE_ICONS = {
             recent:
                 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
@@ -882,18 +960,6 @@
             heart:
                 '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.4-9.3-9.3A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5.7C19 16.6 12 21 12 21z"/></svg>',
         };
-        var SIDE = [
-            { section: "Library" },
-            { label: "Recently Added", icon: "recent", active: true },
-            { label: "Songs",          icon: "note" },
-            { label: "Albums",         icon: "album" },
-            { label: "Artists",        icon: "artist" },
-            { section: "Listen Now" },
-            { label: "Listen Now",     icon: "heart" },
-            { label: "Radio",          icon: "radio" },
-            { section: "Playlists" },
-            { label: "Now Playing",    art: true, active: false },
-        ];
 
         var brand = el("div", { class: "music-side__brand" });
         brand.innerHTML =
@@ -905,41 +971,72 @@
             "<span>Music</span>";
 
         var sidebar = el("nav", { class: "music-side", "aria-label": "Sidebar" }, [brand]);
-        SIDE.forEach(function (item) {
-            if (item.section) {
-                sidebar.appendChild(el("div", { class: "music-side__section", text: item.section }));
-                return;
-            }
-            var btn = el("button", {
-                class: "music-side__item" + (item.active ? " is-active" : ""),
-                type: "button",
-            });
-            var iconHtml = item.art
-                ? '<span class="music-side__art" aria-hidden="true"></span>'
-                : '<span class="music-side__icon">' + (SIDE_ICONS[item.icon] || "") + "</span>";
-            btn.innerHTML = iconHtml + '<span class="music-side__label"></span>';
-            btn.querySelector(".music-side__label").textContent = item.label;
-            btn.addEventListener("click", function () {
+
+        function decorativeRow(label, iconKey) {
+            var b = el("button", { class: "music-side__item", type: "button" });
+            b.innerHTML =
+                '<span class="music-side__icon">' + SIDE_ICONS[iconKey] + "</span>" +
+                '<span class="music-side__label"></span>';
+            b.querySelector(".music-side__label").textContent = label;
+            b.addEventListener("click", function () {
+                /* Decorative — just shifts the active highlight so the row
+                   reacts to clicks. The main view doesn't change because
+                   we only have albums to show. */
                 sidebar.querySelectorAll(".music-side__item").forEach(function (n) {
                     n.classList.remove("is-active");
                 });
-                btn.classList.add("is-active");
+                b.classList.add("is-active");
             });
+            return b;
+        }
+
+        sidebar.appendChild(el("div", { class: "music-side__section", text: "Library" }));
+        sidebar.appendChild(decorativeRow("Recently Added", "recent"));
+        sidebar.appendChild(decorativeRow("Songs",          "note"));
+        sidebar.appendChild(decorativeRow("Albums",         "album"));
+        sidebar.appendChild(decorativeRow("Artists",        "artist"));
+        sidebar.appendChild(el("div", { class: "music-side__section", text: "Listen Now" }));
+        sidebar.appendChild(decorativeRow("Listen Now", "heart"));
+        sidebar.appendChild(decorativeRow("Radio",      "radio"));
+        sidebar.appendChild(el("div", { class: "music-side__section", text: "Recently Played" }));
+
+        var albumButtons = {};
+        ALBUMS.forEach(function (album) {
+            var btn = el("button", { class: "music-side__item", type: "button" });
+            btn.innerHTML =
+                '<span class="music-side__art">' + ALBUM_ART[album.id] + "</span>" +
+                '<span class="music-side__sub"><strong></strong><span></span></span>';
+            btn.querySelector(".music-side__sub strong").textContent = album.title;
+            btn.querySelector(".music-side__sub span").textContent = album.artist;
+            btn.addEventListener("click", function () { selectAlbum(album.id); });
             sidebar.appendChild(btn);
+            albumButtons[album.id] = btn;
         });
 
         var nav = el("div", { class: "music-toolbar__nav" }, [
             el("button", { type: "button", "aria-label": "Back", text: "‹" }),
             el("button", { type: "button", "aria-label": "Forward", text: "›" }),
         ]);
-        var toolbar = el("div", { class: "music-toolbar" }, [
-            nav,
-            el("span", { class: "music-toolbar__title", text: "Now Playing" }),
-        ]);
+        var toolbarTitle = el("span", { class: "music-toolbar__title", text: "" });
+        var toolbar = el("div", { class: "music-toolbar" }, [nav, toolbarTitle]);
+
+        var heroArt = el("div", { class: "music-hero__art" });
+        var heroKicker = el("div", { class: "music-hero__kicker", text: "ALBUM" });
+        var heroTitle = el("h2", { class: "music-hero__title", text: "" });
+        var heroSub = el("div", { class: "music-hero__sub", text: "" });
+        var playBtn = el("button", { class: "music-hero__btn", type: "button" });
+        playBtn.innerHTML =
+            '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5l12 7-12 7z"/></svg>' +
+            "<span>Play</span>";
+        var shuffleBtn = el("button", { class: "music-hero__btn music-hero__btn--ghost", type: "button" });
+        shuffleBtn.innerHTML =
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20l17-17"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>' +
+            "<span>Shuffle</span>";
+        var heroRow = el("div", { class: "music-hero__row" }, [playBtn, shuffleBtn]);
+        var heroMeta = el("div", { class: "music-hero__meta" }, [heroKicker, heroTitle, heroSub, heroRow]);
+        var hero = el("div", { class: "music-hero" }, [heroArt, heroMeta]);
 
         var iframe = document.createElement("iframe");
-        iframe.src =
-            "https://www.youtube-nocookie.com/embed/videoseries?si=S_ef2ZsNJtrwIjQ4&list=OLAK5uy_l_AB0hNbkYRvgxt0i7wRwIyzEQ25KftGM";
         iframe.title = "YouTube video player";
         iframe.frameBorder = "0";
         iframe.setAttribute(
@@ -950,10 +1047,31 @@
         iframe.allowFullscreen = true;
 
         var stage = el("div", { class: "music-stage" }, [iframe]);
-        var main = el("div", { class: "music-main" }, [toolbar, stage]);
+        var main = el("div", { class: "music-main" }, [toolbar, hero, stage]);
         var app = el("div", { class: "music-app" }, [sidebar, main]);
 
-        createWindow({ title: "Music", width: 940, height: 560, body: app });
+        function selectAlbum(id) {
+            var album = null;
+            for (var i = 0; i < ALBUMS.length; i++) if (ALBUMS[i].id === id) { album = ALBUMS[i]; break; }
+            if (!album) return;
+            heroArt.innerHTML = ALBUM_ART[album.id];
+            heroTitle.textContent = album.title;
+            heroSub.textContent = album.artist + " · " + album.year + " · Album";
+            toolbarTitle.textContent = album.title;
+            hero.style.setProperty("--music-hero-bg", album.heroBg);
+            iframe.src = album.embed;
+            Object.keys(albumButtons).forEach(function (k) {
+                albumButtons[k].classList.toggle("is-active", k === id);
+            });
+        }
+
+        playBtn.addEventListener("click", function () {
+            // Refocus the player area to encourage user gesture for autoplay.
+            iframe.focus();
+        });
+
+        createWindow({ title: "Music", width: 940, height: 600, body: app });
+        selectAlbum(ALBUMS[0].id);
     }
 
     /* =================================================================
