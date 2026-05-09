@@ -115,6 +115,13 @@
             ".te-app{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff;color:#1d1d1f}",
             "@media(prefers-color-scheme:dark){.te-app{background:#1d1d1f;color:#f5f5f7}}",
             ".te-app textarea{flex:1;min-height:0;background:transparent;border:0;color:inherit;font:inherit;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,sans-serif;font-size:14px;line-height:1.5;padding:1.4em 2em;outline:none;resize:none}",
+            /* Trash */
+            ".trash-app{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2em;color:rgba(60,60,67,0.65)}",
+            "@media(prefers-color-scheme:dark){.trash-app{color:rgba(235,235,245,0.55)}}",
+            ".trash-app__icon{width:84px;height:84px;margin-bottom:0.7em;opacity:0.55}",
+            ".trash-app__title{font-size:18px;font-weight:600;letter-spacing:-0.015em;color:inherit;margin:0 0 0.3em}",
+            ".trash-app__sub{font-size:13px;margin:0;color:inherit;opacity:0.85}",
+            ".trash-app__count{margin-top:1.2em;font-size:11.5px;font-family:'SF Mono',ui-monospace,Menlo,monospace;letter-spacing:0.02em;opacity:0.7}",
         ].join("");
         document.head.appendChild(s);
     }
@@ -836,6 +843,29 @@
     }
 
     /* =================================================================
+       5. Trash — empty bin, Finder-style
+       ================================================================= */
+    function openTrash() {
+        var icon = el("div", {
+            class: "trash-app__icon",
+            html:
+                '<svg viewBox="0 0 56 56" aria-hidden="true">' +
+                '<path d="M14 18h28l-2 30a4 4 0 0 1-4 3.7H20a4 4 0 0 1-4-3.7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>' +
+                '<path d="M10 14h36" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>' +
+                '<path d="M22 14V9a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>' +
+                '<path d="M24 26v18M32 26v18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>' +
+                "</svg>",
+        });
+        var app = el("div", { class: "trash-app" }, [
+            icon,
+            el("h2", { class: "trash-app__title", text: "Trash is Empty" }),
+            el("p", { class: "trash-app__sub", text: "There are no items in the Trash." }),
+            el("div", { class: "trash-app__count", text: "0 items" }),
+        ]);
+        createWindow({ title: "Trash", width: 520, height: 340, body: app });
+    }
+
+    /* =================================================================
        Public API
        ================================================================= */
     window.StoicSweApps = {
@@ -843,5 +873,6 @@
         openFinder: openFinder,
         openCalculator: openCalculator,
         openTextEdit: openTextEdit,
+        openTrash: openTrash,
     };
 })();

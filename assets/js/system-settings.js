@@ -2,7 +2,41 @@
     if (typeof document === "undefined") return;
 
     var THEME_KEY = "stoicswe-theme";
+    var ACCENT_KEY = "stoicswe-accent";
+    var WALLPAPER_KEY = "stoicswe-wallpaper";
+    var WALLPAPER_DIR = "/assets/images/wallpapers/";
     var EFF_URL = "https://ssd.eff.org";
+
+    var WALLPAPERS = [
+        { id: "snow",         label: "Snow Peaks",   file: "ahmetyuksek-snow-covered-peaks-9771614_1920.jpg" },
+        { id: "bokeh",        label: "Bokeh",        file: "anrita1705-bokeh-4578758_1920.jpg" },
+        { id: "coffee",       label: "Coffee",       file: "clickerhappy-coffee-beans-917613_1920.jpg" },
+        { id: "spring",       label: "Spring",       file: "gimgyeongbog-spring-5016266_1920.jpg" },
+        { id: "dahlia",       label: "Dahlia",       file: "heikiwi-dahlia-8209085_1920.jpg" },
+        { id: "leaves",       label: "Leaves",       file: "mylene2401-leaves-8390274_1920.jpg" },
+        { id: "aster",        label: "Aster",        file: "nennieinszweidrei-high-mock-aster-8380794_1920.jpg" },
+        { id: "flower",       label: "Flower",       file: "rattakarn-flower-7861942_1920.jpg" },
+        { id: "abstract",     label: "Abstract",     file: "steve_a_johnson-wallpaper-8857295_1920.jpg" },
+        { id: "pasqueflower", label: "Pasqueflower", file: "susannp4-pasqueflower-3066824_1920.jpg" },
+        { id: "reed",         label: "Reed",         file: "terbe_rezso-reed-9540853_1920.jpg" },
+        { id: "jellyfish",    label: "Jellyfish",    file: "tyna_janoch-jellyfish-7704800_1920.jpg" },
+    ];
+
+    // macOS-style accent palette. "multicolour" clears the override and
+    // lets the stylesheet's default (blue) come through for both light
+    // and dark modes.
+    var ACCENTS = [
+        { id: "multicolour", label: "Multicolour", color: null,
+          swatch: "conic-gradient(from 210deg,#ff3b30,#ff9500,#ffcc00,#34c759,#0a84ff,#5e5ce6,#bf5af2,#ff2d55,#ff3b30)" },
+        { id: "blue",      label: "Blue",      color: "#0a84ff" },
+        { id: "purple",    label: "Purple",    color: "#bf5af2" },
+        { id: "pink",      label: "Pink",      color: "#ff375f" },
+        { id: "red",       label: "Red",       color: "#ff3b30" },
+        { id: "orange",    label: "Orange",    color: "#ff9f0a" },
+        { id: "yellow",    label: "Yellow",    color: "#ffd60a" },
+        { id: "green",     label: "Green",     color: "#30d158" },
+        { id: "graphite",  label: "Graphite",  color: "#8e8e93" },
+    ];
     var win = null;
     var backdrop = null;
     var currentSection = "appearance";
@@ -39,10 +73,13 @@
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
         shield:
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L4 5v7c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V5l-8-3z"/><path d="M9 12l2 2 4-4"/></svg>',
+        wallpaper:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5" fill="currentColor" stroke="none"/><path d="M3 17l5-5 4 4 3-3 6 6"/></svg>',
     };
 
     var SECTIONS = [
         { id: "appearance", label: "Appearance", icon: "appearance" },
+        { id: "wallpaper", label: "Wallpaper", icon: "wallpaper" },
         { id: "wifi", label: "Wi-Fi", icon: "wifi" },
         { id: "network", label: "Network", icon: "globe" },
         { id: "general", label: "General", icon: "gear" },
@@ -73,6 +110,95 @@
         else link.media = "(prefers-color-scheme: dark)";
     }
 
+    /* ---------- Accent ---------- */
+    function getAccent() {
+        try {
+            return localStorage.getItem(ACCENT_KEY) || "multicolour";
+        } catch (e) {
+            return "multicolour";
+        }
+    }
+    function setAccent(id) {
+        try {
+            localStorage.setItem(ACCENT_KEY, id);
+        } catch (e) {}
+        applyAccent(id);
+    }
+    function findAccent(id) {
+        for (var i = 0; i < ACCENTS.length; i++) if (ACCENTS[i].id === id) return ACCENTS[i];
+        return ACCENTS[0];
+    }
+    // #rrggbb -> "r, g, b"
+    function hexToRgbTriplet(hex) {
+        var h = hex.replace("#", "");
+        if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+        var n = parseInt(h, 16);
+        return ((n >> 16) & 255) + ", " + ((n >> 8) & 255) + ", " + (n & 255);
+    }
+    // Lighten a hex color by mixing with white.
+    function lighten(hex, amount) {
+        var h = hex.replace("#", "");
+        if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+        var n = parseInt(h, 16);
+        var r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+        r = Math.round(r + (255 - r) * amount);
+        g = Math.round(g + (255 - g) * amount);
+        b = Math.round(b + (255 - b) * amount);
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+    function applyAccent(id) {
+        var s = document.documentElement.style;
+        var a = findAccent(id);
+        if (!a || !a.color) {
+            s.removeProperty("--sonoma-accent");
+            s.removeProperty("--sonoma-accent-hover");
+            s.removeProperty("--sonoma-accent-tint");
+            s.removeProperty("--sonoma-selection");
+            return;
+        }
+        var rgb = hexToRgbTriplet(a.color);
+        s.setProperty("--sonoma-accent", a.color);
+        s.setProperty("--sonoma-accent-hover", lighten(a.color, 0.18));
+        s.setProperty("--sonoma-accent-tint", "rgba(" + rgb + ", 0.18)");
+        s.setProperty("--sonoma-selection", "rgba(" + rgb + ", 0.30)");
+    }
+
+    /* ---------- Wallpaper ---------- */
+    function getWallpaper() {
+        try {
+            return localStorage.getItem(WALLPAPER_KEY) || "default";
+        } catch (e) {
+            return "default";
+        }
+    }
+    function setWallpaper(id) {
+        try {
+            localStorage.setItem(WALLPAPER_KEY, id);
+        } catch (e) {}
+        applyWallpaper(id);
+    }
+    function findWallpaper(id) {
+        for (var i = 0; i < WALLPAPERS.length; i++) if (WALLPAPERS[i].id === id) return WALLPAPERS[i];
+        return null;
+    }
+    function applyWallpaper(id) {
+        var html = document.documentElement;
+        var w = findWallpaper(id);
+        if (!w) {
+            html.style.removeProperty("background-image");
+            html.style.removeProperty("background-size");
+            html.style.removeProperty("background-position");
+            html.style.removeProperty("background-repeat");
+            html.style.removeProperty("background-attachment");
+            return;
+        }
+        html.style.setProperty("background-image", "url('" + WALLPAPER_DIR + w.file + "')", "important");
+        html.style.setProperty("background-size", "cover", "important");
+        html.style.setProperty("background-position", "center center", "important");
+        html.style.setProperty("background-repeat", "no-repeat", "important");
+        html.style.setProperty("background-attachment", "fixed", "important");
+    }
+
     /* ---------- Critical inline CSS ---------- */
     function injectCSS() {
         if (document.getElementById("settings-critical")) return;
@@ -100,8 +226,7 @@
             ".settings-side-item{display:flex;align-items:center;gap:9px;width:100%;padding:6px 9px;margin-bottom:1px;background:transparent;border:0;border-radius:6px;color:inherit;font:inherit;font-size:13px;text-align:left;cursor:pointer}",
             ".settings-side-item:hover{background:rgba(0,0,0,0.05)}",
             "@media(prefers-color-scheme:dark){.settings-side-item:hover{background:rgba(255,255,255,0.06)}}",
-            ".settings-side-item.is-active{background:#0071e3;color:#fff}",
-            "@media(prefers-color-scheme:dark){.settings-side-item.is-active{background:#0a84ff}}",
+            ".settings-side-item.is-active{background:var(--sonoma-accent,#0071e3);color:#fff}",
             ".settings-side-item__icon{display:inline-flex;width:18px;height:18px;flex:0 0 18px;align-items:center;justify-content:center;color:currentColor}",
             ".settings-side-item__icon svg{width:18px;height:18px}",
             ".settings-content{flex:1;min-width:0;overflow-y:auto;padding:1.6em 1.8em}",
@@ -128,22 +253,38 @@
             ".settings-swatch--auto .settings-swatch__preview{background:linear-gradient(135deg,#fff 0%,#fff 50%,#1c1c1f 50%,#1c1c1f 100%)}",
             ".settings-swatch--auto .settings-swatch__preview .bar{background:transparent}",
             ".settings-swatch--auto .settings-swatch__preview .body{background:transparent}",
-            ".settings-swatch.is-selected .settings-swatch__preview{border-color:#0071e3}",
-            "@media(prefers-color-scheme:dark){.settings-swatch.is-selected .settings-swatch__preview{border-color:#0a84ff}}",
+            ".settings-swatch.is-selected .settings-swatch__preview{border-color:var(--sonoma-accent,#0071e3)}",
             ".settings-swatch__label{font-size:12px;color:rgba(60,60,67,0.85)}",
             "@media(prefers-color-scheme:dark){.settings-swatch__label{color:rgba(235,235,245,0.85)}}",
             ".settings-status{display:inline-flex;align-items:center;gap:6px;font-size:13px}",
             ".settings-status::before{content:'';width:8px;height:8px;border-radius:50%;background:#34c759;box-shadow:0 0 8px rgba(52,199,89,0.6)}",
             ".settings-disclaimer{font-size:12px;color:rgba(60,60,67,0.7);line-height:1.5;margin:0 0 1em}",
             "@media(prefers-color-scheme:dark){.settings-disclaimer{color:rgba(235,235,245,0.6)}}",
-            ".settings-btn{display:inline-flex;align-items:center;gap:7px;padding:0.42em 0.95em;font-size:13px;font-weight:500;font-family:inherit;color:#fff!important;background:#0071e3;border:0;border-radius:7px;cursor:pointer;text-decoration:none!important;line-height:1.3;white-space:nowrap}",
-            "@media(prefers-color-scheme:dark){.settings-btn{background:#0a84ff}}",
-            ".settings-btn:hover{background:#0077ed;color:#fff!important}",
+            ".settings-btn{display:inline-flex;align-items:center;gap:7px;padding:0.42em 0.95em;font-size:13px;font-weight:500;font-family:inherit;color:#fff!important;background:var(--sonoma-accent,#0071e3);border:0;border-radius:7px;cursor:pointer;text-decoration:none!important;line-height:1.3;white-space:nowrap}",
+            ".settings-btn:hover{background:var(--sonoma-accent-hover,#0077ed);color:#fff!important}",
             ".settings-btn:visited{color:#fff!important}",
             ".settings-btn__label{color:inherit}",
             ".settings-btn__arrow{width:13px;height:13px;display:block;flex-shrink:0;opacity:0.9}",
             ".settings-empty{font-size:13px;color:rgba(60,60,67,0.65);font-style:italic}",
             "@media(prefers-color-scheme:dark){.settings-empty{color:rgba(235,235,245,0.55)}}",
+            ".settings-accents{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:0.3em 0}",
+            ".settings-accent{position:relative;width:26px;height:26px;border-radius:50%;border:0;padding:0;cursor:pointer;background:transparent;display:flex;flex-direction:column;align-items:center;gap:6px;font:inherit;color:inherit}",
+            ".settings-accent__dot{display:block;width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 0.5px rgba(0,0,0,0.18),0 1px 2px rgba(0,0,0,0.18)}",
+            ".settings-accent.is-selected .settings-accent__dot{box-shadow:inset 0 0 0 0.5px rgba(0,0,0,0.18),0 0 0 2px rgba(255,255,255,0.95),0 0 0 4px var(--sonoma-accent,#0071e3)}",
+            "@media(prefers-color-scheme:dark){.settings-accent.is-selected .settings-accent__dot{box-shadow:inset 0 0 0 0.5px rgba(0,0,0,0.18),0 0 0 2px rgba(28,28,32,0.95),0 0 0 4px var(--sonoma-accent,#0a84ff)}}",
+            ".settings-accent__label{font-size:11px;color:rgba(60,60,67,0.85);height:14px;line-height:14px;visibility:hidden}",
+            "@media(prefers-color-scheme:dark){.settings-accent__label{color:rgba(235,235,245,0.85)}}",
+            ".settings-accent.is-selected .settings-accent__label{visibility:visible}",
+            ".settings-wall-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px}",
+            ".settings-wall{display:flex;flex-direction:column;align-items:stretch;gap:6px;padding:0;background:transparent;border:0;font:inherit;color:inherit;cursor:pointer;text-align:center}",
+            ".settings-wall__thumb{aspect-ratio:16/10;border-radius:8px;background:#e5e5ea center/cover no-repeat;border:2px solid transparent;box-shadow:0 1px 3px rgba(0,0,0,0.18)}",
+            "@media(prefers-color-scheme:dark){.settings-wall__thumb{background-color:#2a2a2f}}",
+            ".settings-wall.is-selected .settings-wall__thumb{border-color:var(--sonoma-accent,#0071e3);box-shadow:0 0 0 2px rgba(255,255,255,0.7),0 0 0 4px var(--sonoma-accent,#0071e3),0 1px 3px rgba(0,0,0,0.18)}",
+            "@media(prefers-color-scheme:dark){.settings-wall.is-selected .settings-wall__thumb{box-shadow:0 0 0 2px rgba(28,28,32,0.85),0 0 0 4px var(--sonoma-accent,#0a84ff),0 1px 3px rgba(0,0,0,0.45)}}",
+            ".settings-wall__thumb--default{background:linear-gradient(135deg,rgba(255,190,215,0.6),rgba(170,195,255,0.6) 60%,#f6f4f8)}",
+            "@media(prefers-color-scheme:dark){.settings-wall__thumb--default{background:linear-gradient(135deg,rgba(120,70,180,0.4),rgba(40,90,200,0.4) 60%,#0e0e12)}}",
+            ".settings-wall__label{font-size:12px;color:rgba(60,60,67,0.85);line-height:1.3}",
+            "@media(prefers-color-scheme:dark){.settings-wall__label{color:rgba(235,235,245,0.85)}}",
             "@media(max-width:680px){.settings-window{width:100%;max-width:100%;height:100%;max-height:100%;top:0;left:0;transform:none;border-radius:0}.settings-sidebar{width:160px;flex:0 0 160px}}",
         ].join("");
         document.head.appendChild(s);
@@ -153,6 +294,8 @@
     function open() {
         injectCSS();
         applyTheme(getTheme()); // ensure consistent on open
+        applyAccent(getAccent());
+        applyWallpaper(getWallpaper());
         if (win) {
             win.classList.add("is-open");
             backdrop.classList.add("is-open");
@@ -266,6 +409,7 @@
         var content = win.querySelector("#settings-content");
         content.innerHTML = "";
         if (currentSection === "appearance") renderAppearance(content);
+        else if (currentSection === "wallpaper") renderWallpaper(content);
         else if (currentSection === "wifi") renderNetwork(content, "Wi-Fi");
         else if (currentSection === "network") renderNetwork(content, "Network");
         else if (currentSection === "general") renderGeneral(content);
@@ -317,6 +461,93 @@
             ),
         ]);
         c.appendChild(row);
+
+        c.appendChild(el("h2", { class: "settings-h2", text: "Accent colour" }));
+        var currentAccent = getAccent();
+        var accentRow = el("div", { class: "settings-card" }, [
+            el(
+                "div",
+                { class: "settings-accents", role: "radiogroup", "aria-label": "Accent colour" },
+                ACCENTS.map(function (a) {
+                    var btn = el("button", {
+                        class: "settings-accent" + (a.id === currentAccent ? " is-selected" : ""),
+                        type: "button",
+                        role: "radio",
+                        "aria-label": a.label,
+                        title: a.label,
+                        on: {
+                            click: function () {
+                                setAccent(a.id);
+                                renderSection();
+                            },
+                        },
+                    });
+                    var bg = a.color || a.swatch;
+                    btn.innerHTML =
+                        '<span class="settings-accent__dot" style="background:' + bg + '"></span>' +
+                        '<span class="settings-accent__label"></span>';
+                    btn.querySelector(".settings-accent__label").textContent = a.label;
+                    return btn;
+                })
+            ),
+        ]);
+        c.appendChild(accentRow);
+    }
+
+    function renderWallpaper(c) {
+        c.appendChild(el("h1", { class: "settings-h1", text: "Wallpaper" }));
+        c.appendChild(
+            el("p", {
+                class: "settings-disclaimer",
+                text:
+                    "Choose a background image for the page. Images are served from this site and are credited to their photographers via the original filenames.",
+            })
+        );
+        var credit = el("p", { class: "settings-disclaimer" });
+        credit.innerHTML =
+            'Photos courtesy of <a href="https://pixabay.com/" target="_blank" rel="noopener noreferrer">Pixabay</a>.';
+        c.appendChild(credit);
+
+        var current = getWallpaper();
+        var grid = el("div", { class: "settings-wall-grid" });
+
+        var defaultBtn = el("button", {
+            class: "settings-wall" + (current === "default" ? " is-selected" : ""),
+            type: "button",
+            "aria-label": "Default gradient",
+            on: {
+                click: function () {
+                    setWallpaper("default");
+                    renderSection();
+                },
+            },
+        });
+        defaultBtn.innerHTML =
+            '<span class="settings-wall__thumb settings-wall__thumb--default"></span>' +
+            '<span class="settings-wall__label">Default</span>';
+        grid.appendChild(defaultBtn);
+
+        WALLPAPERS.forEach(function (w) {
+            var btn = el("button", {
+                class: "settings-wall" + (w.id === current ? " is-selected" : ""),
+                type: "button",
+                "aria-label": w.label,
+                on: {
+                    click: function () {
+                        setWallpaper(w.id);
+                        renderSection();
+                    },
+                },
+            });
+            btn.innerHTML =
+                '<span class="settings-wall__thumb" style="background-image:url(\'' +
+                WALLPAPER_DIR + w.file + "')\"></span>" +
+                '<span class="settings-wall__label"></span>';
+            btn.querySelector(".settings-wall__label").textContent = w.label;
+            grid.appendChild(btn);
+        });
+
+        c.appendChild(el("div", { class: "settings-card" }, [grid]));
     }
 
     function buildEFFButton() {
@@ -506,11 +737,17 @@
     // Apply saved theme as early as possible (in case the inline pre-paint
     // script wasn't reached for some reason).
     applyTheme(getTheme());
+    applyAccent(getAccent());
+    applyWallpaper(getWallpaper());
 
     window.StoicSweSettings = {
         open: open,
         close: close,
         applyTheme: applyTheme,
         getTheme: getTheme,
+        applyAccent: applyAccent,
+        getAccent: getAccent,
+        applyWallpaper: applyWallpaper,
+        getWallpaper: getWallpaper,
     };
 })();
