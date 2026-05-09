@@ -127,7 +127,7 @@
             ".music-side__icon{display:inline-flex;width:16px;height:16px;flex:0 0 16px;align-items:center;justify-content:center;color:currentColor;opacity:0.85}",
             ".music-side__icon svg{width:100%;height:100%}",
             ".music-side__art{width:28px;height:28px;flex:0 0 28px;border-radius:4px;overflow:hidden;box-shadow:inset 0 0 0 0.5px rgba(255,255,255,0.18),0 1px 2px rgba(0,0,0,0.4)}",
-            ".music-side__art svg{display:block;width:100%;height:100%}",
+            ".music-side__art svg,.music-side__art img{display:block;width:100%;height:100%;object-fit:cover}",
             ".music-side__sub{display:flex;flex-direction:column;min-width:0;line-height:1.2}",
             ".music-side__sub strong{font-weight:500;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
             ".music-side__sub span{font-size:11px;opacity:0.65;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
@@ -142,7 +142,7 @@
             ".music-hero::after{content:'';position:absolute;inset:0;backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);background:rgba(14,14,16,0.45);z-index:0}",
             ".music-hero > *{position:relative;z-index:1}",
             ".music-hero__art{width:140px;height:140px;flex:0 0 140px;border-radius:8px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.55),inset 0 0 0 0.5px rgba(255,255,255,0.12)}",
-            ".music-hero__art svg{display:block;width:100%;height:100%}",
+            ".music-hero__art svg,.music-hero__art img{display:block;width:100%;height:100%;object-fit:cover}",
             ".music-hero__meta{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}",
             ".music-hero__kicker{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(235,235,245,0.7)}",
             ".music-hero__title{margin:0;font-size:28px;font-weight:700;letter-spacing:-0.02em;line-height:1.05;color:#fff}",
@@ -883,45 +883,12 @@
     /* =================================================================
        5. Music — embedded YouTube player
        ================================================================= */
-    /* Stylized album cover artwork. These are not the real album covers —
-       just placeholder art evoking each album's palette. The actual album
-       artwork is shown inside the YouTube playlist embed below. */
+    /* Album cover artwork — JPGs the user dropped in /assets/images/albums/. */
     var ALBUM_ART = {
         "even-in-arcadia":
-            '<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">' +
-            '<defs>' +
-            '<radialGradient id="art-arc-g" cx="50%" cy="62%" r="65%">' +
-            '<stop offset="0%" stop-color="#ffe7a3"/>' +
-            '<stop offset="40%" stop-color="#d99a3a"/>' +
-            '<stop offset="100%" stop-color="#1c0a04"/>' +
-            "</radialGradient>" +
-            "</defs>" +
-            '<rect width="100" height="100" fill="url(#art-arc-g)"/>' +
-            '<g opacity="0.35" stroke="#fff5d0" stroke-width="0.7" fill="none">' +
-            '<line x1="50" y1="62" x2="14" y2="-4"/>' +
-            '<line x1="50" y1="62" x2="34" y2="-4"/>' +
-            '<line x1="50" y1="62" x2="50" y2="-4"/>' +
-            '<line x1="50" y1="62" x2="66" y2="-4"/>' +
-            '<line x1="50" y1="62" x2="86" y2="-4"/>' +
-            '<line x1="50" y1="62" x2="104" y2="22"/>' +
-            '<line x1="50" y1="62" x2="-4" y2="22"/>' +
-            "</g>" +
-            '<circle cx="50" cy="62" r="6" fill="#fff8d8" opacity="0.85"/>' +
-            "</svg>",
+            '<img src="/assets/images/albums/even-in-arcadia.jpg" alt="Even in Arcadia" loading="lazy" decoding="async">',
         "take-me-back-to-eden":
-            '<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">' +
-            '<defs>' +
-            '<radialGradient id="art-eden-g" cx="50%" cy="42%" r="80%">' +
-            '<stop offset="0%" stop-color="#fefdf6"/>' +
-            '<stop offset="55%" stop-color="#dcdac5"/>' +
-            '<stop offset="100%" stop-color="#3c3a2c"/>' +
-            "</radialGradient>" +
-            "</defs>" +
-            '<rect width="100" height="100" fill="url(#art-eden-g)"/>' +
-            '<ellipse cx="50" cy="42" rx="14" ry="18" fill="#ece8d3" stroke="rgba(0,0,0,0.18)" stroke-width="0.5"/>' +
-            '<ellipse cx="50" cy="74" rx="24" ry="11" fill="#ece8d3" stroke="rgba(0,0,0,0.18)" stroke-width="0.5"/>' +
-            '<path d="M44 38c0-2 2-4 6-4s6 2 6 4" fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="0.6"/>' +
-            "</svg>",
+            '<img src="/assets/images/albums/take-me-back-to-eden.jpg" alt="Take Me Back to Eden" loading="lazy" decoding="async">',
     };
 
     var ALBUMS = [
