@@ -116,8 +116,24 @@
             "@media(prefers-color-scheme:dark){.te-app{background:#1d1d1f;color:#f5f5f7}}",
             ".te-app textarea{flex:1;min-height:0;background:transparent;border:0;color:inherit;font:inherit;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,sans-serif;font-size:14px;line-height:1.5;padding:1.4em 2em;outline:none;resize:none}",
             /* Music */
-            ".music-app{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:#0c0c0e;padding:0}",
-            ".music-app iframe{display:block;width:100%;height:100%;border:0}",
+            ".music-app{flex:1;min-height:0;display:flex;background:#1c1c1f;color:#f5f5f7;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter','Segoe UI',sans-serif}",
+            ".music-side{width:194px;flex:0 0 194px;background:linear-gradient(180deg,rgba(252,92,125,0.12),rgba(28,28,32,0) 280px),#161618;border-right:1px solid rgba(255,255,255,0.06);overflow-y:auto;padding:14px 10px}",
+            ".music-side__brand{display:flex;align-items:center;gap:8px;padding:2px 6px 14px;font-size:14px;font-weight:600;letter-spacing:-0.01em;color:#fc5c7d}",
+            ".music-side__brand svg{width:20px;height:20px;display:block}",
+            ".music-side__section{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(235,235,245,0.45);padding:14px 8px 4px}",
+            ".music-side__item{display:flex;align-items:center;gap:9px;width:100%;padding:5px 8px;margin-bottom:1px;background:transparent;border:0;border-radius:6px;color:#f5f5f7;font:inherit;font-size:13px;text-align:left;cursor:pointer}",
+            ".music-side__item:hover{background:rgba(255,255,255,0.06)}",
+            ".music-side__item.is-active{background:#fc5c7d;color:#fff}",
+            ".music-side__icon{display:inline-flex;width:16px;height:16px;flex:0 0 16px;align-items:center;justify-content:center;color:currentColor;opacity:0.85}",
+            ".music-side__icon svg{width:100%;height:100%}",
+            ".music-side__art{width:24px;height:24px;flex:0 0 24px;border-radius:4px;background:linear-gradient(135deg,#fc5c7d,#6a82fb);box-shadow:inset 0 0 0 0.5px rgba(255,255,255,0.18)}",
+            ".music-main{flex:1;min-width:0;display:flex;flex-direction:column;background:#0e0e10}",
+            ".music-toolbar{display:flex;align-items:center;gap:10px;height:38px;flex:0 0 38px;padding:0 14px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:12.5px;color:rgba(235,235,245,0.7)}",
+            ".music-toolbar__nav{display:flex;gap:2px}",
+            ".music-toolbar__nav button{width:24px;height:24px;border:0;background:transparent;border-radius:4px;color:inherit;font:inherit;cursor:default;font-size:14px;line-height:1;opacity:0.45}",
+            ".music-toolbar__title{font-weight:600;color:#f5f5f7}",
+            ".music-stage{flex:1;min-height:0;display:flex;flex-direction:column;background:#000}",
+            ".music-stage iframe{flex:1;min-height:0;width:100%;border:0;display:block}",
             /* Trash */
             ".trash-app{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2em;color:rgba(60,60,67,0.65)}",
             "@media(prefers-color-scheme:dark){.trash-app{color:rgba(235,235,245,0.55)}}",
@@ -849,9 +865,79 @@
        5. Music — embedded YouTube player
        ================================================================= */
     function openMusic() {
+        /* Decorative left rail — mirrors the Apple Music chrome (Library /
+           Playlists / Albums). Items are non-functional; clicks just toggle
+           the active highlight so the UI feels live. */
+        var SIDE_ICONS = {
+            recent:
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+            note:
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5" fill="currentColor"/><circle cx="17.5" cy="16" r="2.5" fill="currentColor"/></svg>',
+            album:
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/></svg>',
+            artist:
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>',
+            radio:
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/><path d="M7.5 7.5a6.4 6.4 0 0 0 0 9M16.5 7.5a6.4 6.4 0 0 1 0 9"/></svg>',
+            heart:
+                '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.4-9.3-9.3A5 5 0 0 1 12 6a5 5 0 0 1 9.3 5.7C19 16.6 12 21 12 21z"/></svg>',
+        };
+        var SIDE = [
+            { section: "Library" },
+            { label: "Recently Added", icon: "recent", active: true },
+            { label: "Songs",          icon: "note" },
+            { label: "Albums",         icon: "album" },
+            { label: "Artists",        icon: "artist" },
+            { section: "Listen Now" },
+            { label: "Listen Now",     icon: "heart" },
+            { label: "Radio",          icon: "radio" },
+            { section: "Playlists" },
+            { label: "Now Playing",    art: true, active: false },
+        ];
+
+        var brand = el("div", { class: "music-side__brand" });
+        brand.innerHTML =
+            '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+            '<defs><linearGradient id="music-app-bg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fc5c7d"/><stop offset="1" stop-color="#e02060"/></linearGradient></defs>' +
+            '<rect x="2" y="3" width="20" height="18" rx="4.5" fill="url(#music-app-bg)"/>' +
+            '<path d="M11 8.4l6.4-1.4v6.7" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+            '<circle cx="9.6" cy="14.4" r="1.7" fill="#fff"/><circle cx="16" cy="13.7" r="1.7" fill="#fff"/></svg>' +
+            "<span>Music</span>";
+
+        var sidebar = el("nav", { class: "music-side", "aria-label": "Sidebar" }, [brand]);
+        SIDE.forEach(function (item) {
+            if (item.section) {
+                sidebar.appendChild(el("div", { class: "music-side__section", text: item.section }));
+                return;
+            }
+            var btn = el("button", {
+                class: "music-side__item" + (item.active ? " is-active" : ""),
+                type: "button",
+            });
+            var iconHtml = item.art
+                ? '<span class="music-side__art" aria-hidden="true"></span>'
+                : '<span class="music-side__icon">' + (SIDE_ICONS[item.icon] || "") + "</span>";
+            btn.innerHTML = iconHtml + '<span class="music-side__label"></span>';
+            btn.querySelector(".music-side__label").textContent = item.label;
+            btn.addEventListener("click", function () {
+                sidebar.querySelectorAll(".music-side__item").forEach(function (n) {
+                    n.classList.remove("is-active");
+                });
+                btn.classList.add("is-active");
+            });
+            sidebar.appendChild(btn);
+        });
+
+        var nav = el("div", { class: "music-toolbar__nav" }, [
+            el("button", { type: "button", "aria-label": "Back", text: "‹" }),
+            el("button", { type: "button", "aria-label": "Forward", text: "›" }),
+        ]);
+        var toolbar = el("div", { class: "music-toolbar" }, [
+            nav,
+            el("span", { class: "music-toolbar__title", text: "Now Playing" }),
+        ]);
+
         var iframe = document.createElement("iframe");
-        iframe.width = "560";
-        iframe.height = "315";
         iframe.src =
             "https://www.youtube-nocookie.com/embed/videoseries?si=S_ef2ZsNJtrwIjQ4&list=OLAK5uy_l_AB0hNbkYRvgxt0i7wRwIyzEQ25KftGM";
         iframe.title = "YouTube video player";
@@ -863,8 +949,11 @@
         iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
         iframe.allowFullscreen = true;
 
-        var app = el("div", { class: "music-app" }, [iframe]);
-        createWindow({ title: "Music", width: 580, height: 360, body: app });
+        var stage = el("div", { class: "music-stage" }, [iframe]);
+        var main = el("div", { class: "music-main" }, [toolbar, stage]);
+        var app = el("div", { class: "music-app" }, [sidebar, main]);
+
+        createWindow({ title: "Music", width: 940, height: 560, body: app });
     }
 
     /* =================================================================
