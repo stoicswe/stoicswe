@@ -167,7 +167,6 @@
                keep the iframe rendered so audio keeps playing. */
             ".app-window.is-mini{width:340px!important;height:64px!important;top:auto!important;left:auto!important;bottom:18px!important;right:18px!important;border-radius:14px;transform:none!important}",
             ".app-window.is-mini .app-window__titlebar{display:none}",
-            ".app-window.is-mini > .app-window__body{display:block;position:relative;height:100%}",
             ".app-window.is-mini .music-side,.app-window.is-mini .music-toolbar,.app-window.is-mini .music-hero{visibility:hidden;pointer-events:none}",
             ".app-window.is-mini .music-mini{display:flex}",
             /* Trash */
