@@ -48,6 +48,7 @@
                 { label: "Finder.app", icon: "app-finder", action: "openFinder" },
                 { label: "Calculator.app", icon: "app-calculator", action: "openCalculator" },
                 { label: "TextEdit.app", icon: "app-textedit", action: "openTextEdit" },
+                { label: "Music.app", icon: "app-music", action: "openMusic" },
             ],
         },
         { separator: true },
@@ -85,6 +86,8 @@
             '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="4.5" fill="#2b2b2b"/><rect x="4.6" y="5.2" width="14.8" height="3.4" rx="0.8" fill="#1a1a1a"/><circle cx="6.6" cy="12" r="1.15" fill="#5d5d5d"/><circle cx="10" cy="12" r="1.15" fill="#5d5d5d"/><circle cx="13.4" cy="12" r="1.15" fill="#5d5d5d"/><circle cx="17.5" cy="12" r="1.15" fill="#ff9500"/><circle cx="6.6" cy="15" r="1.15" fill="#5d5d5d"/><circle cx="10" cy="15" r="1.15" fill="#5d5d5d"/><circle cx="13.4" cy="15" r="1.15" fill="#5d5d5d"/><circle cx="17.5" cy="15" r="1.15" fill="#ff9500"/><circle cx="6.6" cy="18" r="1.15" fill="#5d5d5d"/><circle cx="10" cy="18" r="1.15" fill="#5d5d5d"/><circle cx="13.4" cy="18" r="1.15" fill="#5d5d5d"/><circle cx="17.5" cy="18" r="1.15" fill="#ff9500"/></svg>',
         "app-textedit":
             '<svg viewBox="0 0 24 24"><rect x="4" y="2.5" width="14" height="19" rx="2" fill="#fff" stroke="#bbb" stroke-width="0.6"/><path d="M7 7h8M7 10h8M7 13h8M7 16h6" stroke="#a0a0a0" stroke-width="0.9" stroke-linecap="round"/><path d="M14.5 17l5-5 2 2-5 5-2.5.5z" fill="#f5b800" stroke="#1d1d1f" stroke-width="0.5" stroke-linejoin="round"/></svg>',
+        "app-music":
+            '<svg viewBox="0 0 24 24"><defs><linearGradient id="apl-music-bg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fc5c7d"/><stop offset="1" stop-color="#e02060"/></linearGradient></defs><rect x="2" y="3" width="20" height="18" rx="4.5" fill="url(#apl-music-bg)"/><path d="M11 8.4l6.4-1.4v6.7" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.6" cy="14.4" r="1.7" fill="#fff"/><circle cx="16" cy="13.7" r="1.7" fill="#fff"/></svg>',
     };
 
     function detectInfo() {

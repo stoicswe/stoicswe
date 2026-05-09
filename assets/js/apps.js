@@ -115,6 +115,9 @@
             ".te-app{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff;color:#1d1d1f}",
             "@media(prefers-color-scheme:dark){.te-app{background:#1d1d1f;color:#f5f5f7}}",
             ".te-app textarea{flex:1;min-height:0;background:transparent;border:0;color:inherit;font:inherit;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,sans-serif;font-size:14px;line-height:1.5;padding:1.4em 2em;outline:none;resize:none}",
+            /* Music */
+            ".music-app{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:#0c0c0e;padding:0}",
+            ".music-app iframe{display:block;width:100%;height:100%;border:0}",
             /* Trash */
             ".trash-app{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2em;color:rgba(60,60,67,0.65)}",
             "@media(prefers-color-scheme:dark){.trash-app{color:rgba(235,235,245,0.55)}}",
@@ -843,7 +846,29 @@
     }
 
     /* =================================================================
-       5. Trash — empty bin, Finder-style
+       5. Music — embedded YouTube player
+       ================================================================= */
+    function openMusic() {
+        var iframe = document.createElement("iframe");
+        iframe.width = "560";
+        iframe.height = "315";
+        iframe.src =
+            "https://www.youtube-nocookie.com/embed/Qw0bebAzsYc?si=G42oNN9T-ckmS2w7";
+        iframe.title = "YouTube video player";
+        iframe.frameBorder = "0";
+        iframe.setAttribute(
+            "allow",
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        );
+        iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+        iframe.allowFullscreen = true;
+
+        var app = el("div", { class: "music-app" }, [iframe]);
+        createWindow({ title: "Music", width: 580, height: 360, body: app });
+    }
+
+    /* =================================================================
+       6. Trash — empty bin, Finder-style
        ================================================================= */
     function openTrash() {
         var icon = el("div", {
@@ -873,6 +898,7 @@
         openFinder: openFinder,
         openCalculator: openCalculator,
         openTextEdit: openTextEdit,
+        openMusic: openMusic,
         openTrash: openTrash,
     };
 })();
