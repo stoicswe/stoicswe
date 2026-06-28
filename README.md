@@ -3,7 +3,8 @@
 # Nathaniel Knudsen
 | _senior software engineer. stoic. transhumanist._
 
-[![BlueSky Follow](https://img.shields.io/badge/.-@stoicswe.com-lightblue?logo=bluesky)](https://bsky.app/profile/stoicswe.com)
+[![BlueSky Follow](https://img.shields.io/badge/.-@stoicswe.com-lightblue?logo=bluesky)](https://bsky.app/profile/stoicswe.com) 
+ [![eth address](https://img.shields.io/badge/Ethereum-stoicswe.eth-purple?logo=ethereum&logoColor=lavender)](0x7f11f726cc5c0B6D6230B1d4F0db626214199503)
 <br></br>
 <blockquote>
 			“We control our reasoned choice and all acts that depend on that moral will. What’s not under our control are the body and any of its parts, our possessions, parents, siblings, children, or country—anything with which we might associate.” <br></br>
