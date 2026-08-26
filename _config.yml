@@ -22,6 +22,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Nathaniel Knudsen, senior software engineer at GE Vernova.
 #twitter_username: stoicswe
 github_username: stoicswe
+bluesky_username: stoicswe.com
 minimal_mistakes_skin: dark #default
 search: true
 locale: "en-US"

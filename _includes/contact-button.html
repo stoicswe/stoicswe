@@ -1,0 +1,8 @@
+{%- comment -%}
+Contact button + dialog trigger. Wrapped in a block-level <div> so kramdown
+passes it through verbatim — <button> is a span-level element in kramdown and
+gets mangled if it's emitted as a bare multi-line block in a Markdown page.
+The whole button stays on one line for the same reason.
+Values are read by assets/js/contact.js from the data- attributes.
+{%- endcomment -%}
+<div class="contact-cta"><button type="button" class="contact-trigger" data-contact-open data-contact-email="{{ site.email }}" data-contact-bluesky="{{ site.bluesky_username }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7.5l7.4 5.2a2 2 0 0 0 2.2 0l7.4-5.2"/></svg><span>Contact</span></button></div>

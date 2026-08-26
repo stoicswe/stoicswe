@@ -13,7 +13,4 @@ Currently, though I have direct experience with C++/Java as my primary languages
 
 Want to get in touch? Find me on Bluesky, or drop me an email.
 
-<button type="button" class="contact-trigger" data-contact-open>
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7.5l7.4 5.2a2 2 0 0 0 2.2 0l7.4-5.2"/></svg>
-  Contact
-</button>
+{% include contact-button.html %}

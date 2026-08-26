@@ -1,11 +1,14 @@
 (function () {
     if (typeof document === "undefined") return;
 
-    var EMAIL = "contact@stoicswe.com";
-    var BLUESKY = "https://bsky.app/profile/stoicswe.com";
+    /* Fallbacks only — real values come from the trigger's data- attributes,
+       which _includes/contact-button.html fills in from _config.yml. */
+    var DEFAULT_EMAIL = "contact@stoicswe.com";
+    var DEFAULT_BLUESKY = "stoicswe.com";
 
     var modal = null;
     var lastFocus = null;
+    var rowEls = {};
 
     function el(tag, props, children) {
         var node = document.createElement(tag);
@@ -46,7 +49,6 @@
             "a",
             {
                 class: "contact-modal__row",
-                href: opts.href,
                 target: opts.external ? "_blank" : null,
                 rel: opts.external ? "noopener noreferrer external" : null
             },
@@ -80,19 +82,8 @@
                 text: "Say hello — I read everything, and reply to most of it."
             }),
             el("div", { class: "contact-modal__rows" }, [
-                row({
-                    kind: "bluesky",
-                    label: "Bluesky",
-                    value: "@stoicswe.com",
-                    href: BLUESKY,
-                    external: true
-                }),
-                row({
-                    kind: "mail",
-                    label: "Email",
-                    value: EMAIL,
-                    href: "mailto:" + EMAIL
-                })
+                rowEls.bluesky = row({ kind: "bluesky", label: "Bluesky", external: true }),
+                rowEls.mail = row({ kind: "mail", label: "Email" })
             ]),
             el("button", {
                 class: "contact-modal__done",
@@ -136,9 +127,25 @@
         );
     }
 
-    function open() {
+    /* Point the rows at this trigger's addresses. Called on every open so a
+       page with different data- attributes still gets the right values from
+       the one cached dialog. */
+    function applyConfig(trigger) {
+        var d = (trigger && trigger.dataset) || {};
+        var email = d.contactEmail || DEFAULT_EMAIL;
+        var handle = (d.contactBluesky || DEFAULT_BLUESKY).replace(/^@/, "");
+
+        rowEls.mail.href = "mailto:" + email;
+        rowEls.mail.querySelector(".contact-modal__row-value").textContent = email;
+
+        rowEls.bluesky.href = "https://bsky.app/profile/" + handle;
+        rowEls.bluesky.querySelector(".contact-modal__row-value").textContent = "@" + handle;
+    }
+
+    function open(trigger) {
         lastFocus = document.activeElement;
         if (!modal) build();
+        applyConfig(trigger);
         modal.classList.add("is-open");
         document.documentElement.style.overflow = "hidden";
         var f = focusables();
@@ -165,7 +172,7 @@
         var trigger = t && t.closest ? t.closest("[data-contact-open]") : null;
         if (!trigger) return;
         e.preventDefault();
-        open();
+        open(trigger);
     });
 
     document.addEventListener("keydown", function (e) {

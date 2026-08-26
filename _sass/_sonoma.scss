@@ -1340,6 +1340,9 @@ bsky-embed hr {
 /* =========================================================
    Contact dialog — Sonoma-style sheet + its trigger button
    ========================================================= */
+.contact-cta {
+    margin: 1.25em 0;
+}
 .contact-trigger {
     display: inline-flex;
     align-items: center;
@@ -1533,9 +1536,8 @@ bsky-embed hr {
 .contact-modal__row-value {
     font-size: 0.8em;
     color: var(--sonoma-text-secondary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    /* Wrap rather than ellipsize — a clipped email address is useless. */
+    overflow-wrap: anywhere;
 }
 .contact-modal__chevron {
     margin-left: auto;
